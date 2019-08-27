@@ -4,7 +4,7 @@ mongoose		= require("mongoose"),
 methodOverride 	= require("method-override"),
 bodyParser 		= require("body-parser");
 
-mongoose.connect("mongodb://localhost:27017/merchandiser", { useNewUrlParser:true });
+mongoose.connect("mongodb://" + process.env.IP + ":27017/merchandiser", { useNewUrlParser:true });
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
