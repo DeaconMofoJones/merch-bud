@@ -5,7 +5,11 @@ methodOverride 	= require("method-override"),
 bodyParser 		= require("body-parser"),
 port			= process.env.PORT || 3000;
 
-mongoose.connect("mongodb+srv://deaconmofojones:Chuletas1@merchapp-a2iob.azure.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser:true });
+mongoose.connect("mongodb+srv://deaconmofojones:Chuletas1@merchapp-a2iob.azure.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser:true }, function(err){
+	if (err) {
+		console.log(err);
+	}
+});
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
