@@ -5,7 +5,7 @@ methodOverride 	= require("method-override"),
 bodyParser 		= require("body-parser"),
 port			= process.env.PORT || 3000;
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://:27017/merchandiser", { useNewUrlParser:true });
+mongoose.connect("mongodb+srv://deaconmofojones:<password>@merchapp-a2iob.azure.mongodb.net/test?retryWrites=true&w=majority" || process.env.MONGODB_URI || "mongodb://:27017/merchandiser", { useNewUrlParser:true });
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
@@ -106,7 +106,7 @@ app.delete("/items/:id", function(req,res){
 })
 
 if (process.env.NODE_ENV === 'production') {
-	
+
 }
 
 
