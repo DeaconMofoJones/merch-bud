@@ -2,9 +2,10 @@ var express 	= require("express"),
 app				= express(),
 mongoose		= require("mongoose"),
 methodOverride 	= require("method-override"),
-bodyParser 		= require("body-parser");
+bodyParser 		= require("body-parser"),
+port			= process.env.PORT || 3000;
 
-mongoose.connect("mongodb://" + process.env.IP + ":27017/merchandiser", { useNewUrlParser:true });
+mongoose.connect("mongodb://:27017/merchandiser", { useNewUrlParser:true });
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
@@ -106,6 +107,6 @@ app.delete("/items/:id", function(req,res){
 
 
 
-app.listen(process.env.PORT, function(){
+app.listen(port, function(){
 	console.log("Merchandiser App has started")
 });
