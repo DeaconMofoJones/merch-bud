@@ -106,6 +106,6 @@ app.delete("/items/:id", function(req,res){
 
 
 
-app.listen(3000, function(){
+app.listen(process.env.port, function(){
 	console.log("Merchandiser App has started")
 });
