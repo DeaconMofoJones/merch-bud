@@ -1,0 +1,46 @@
+
+<% include partials/header.ejs %>
+
+<form class="ui form" method="POST" action="/items">
+	<div class="field">
+		<label>Name</label>
+		<input type="text" name="item[name]" placeholder="name of item">
+	</div>
+	<div class="field">
+		<label>Image</label>
+		<input type="text" name="item[image]" placeholder="image url">
+	</div>
+	<div class="field">
+		<label>Store</label>
+		<select class="ui fluid dropdown" name="item[store]" required="true">
+			<option value=""> </option>
+			<option value="foodco">FoodCo</option>
+			<option value="walmart">WalMart</option>
+			<option value="costless">CostLess</option>
+			<option value="bestbuy">BestBuy</option>
+			<option value="savemart">SaveMart</option>
+			<option value="exchange">NavyExchange</option>
+			<option value="jetmart">JetMart</option>
+		</select>
+	</div>
+	<div class="field">
+		<label>Type</label>
+		<select class="ui fluid dropdown" name="item[type]" required="true">
+			<option value=""> </option>
+			<option value="Plastic">Plastic</option>
+			<option value="Glass">Glass</option>
+			<option value="Beer">Beer</option>
+			<option value="Bang">Bang</option>
+			<option value="Water">Water</option>
+			<option value="Calypso">Calypso</option>
+			<option value="Arizona">Arizona</option>
+		</select>
+	</div>
+	<div class="field">
+		<label>Amount</label>
+		<input type="number" name="item[amount]" placeholder="amount" required="true">
+	</div>
+	<button class="ui button blue fluid" type="submit">Submit</button>
+</form>
+
+<% include partials/footer.ejs %>

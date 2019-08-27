@@ -1,0 +1,18 @@
+<% include partials/header.ejs %>
+
+<p><%= item.name %></p>
+<p><%= item.store %></p>
+<p><%= item.type %></p>
+<p><%= item.amount %></p>
+<a href="/items/<%= item._id %>/edit">edit</a>
+<form method="POST" action="/items/<%= item._id %>?_method=DELETE">
+	<button type="submit">Delete</button>
+</form>
+
+
+
+
+
+
+
+<% include partials/footer.ejs %>
