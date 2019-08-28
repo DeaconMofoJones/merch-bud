@@ -1,4 +1,4 @@
-@media (hover:none) {
+/*@media (hover:none) {
 	html {
 		font-size: 3em;
 	}
@@ -8,7 +8,7 @@
 	.icon.buttons.right {
 		margin-right: 90px;
 	}
-}
+}*/
 
 body {
 	margin-top: 50px;
