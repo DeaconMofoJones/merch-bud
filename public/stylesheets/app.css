@@ -1,5 +1,13 @@
-#masterContainer, #mainNav {
-	width: 350px;
+@media (hover:none) {
+	html {
+		font-size: 3em;
+	}
+	#mainNav {
+		font-size: 2em;
+	}
+	.icon.buttons.right {
+		margin-right: 90px;
+	}
 }
 
 body {
