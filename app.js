@@ -3,11 +3,18 @@ app				= express(),
 mongoose		= require("mongoose"),
 methodOverride 	= require("method-override"),
 bodyParser 		= require("body-parser"),
-port			= process.env.PORT || 3000;
+port			= process.env.PORT || 3000,
+mongoLocal		= "mongodb://localhost:27017/merchandiser",
+mongoServer		= "mongodb+srv://deaconmofojones:Chuletas1@merchapp-a2iob.azure.mongodb.net/test?retryWrites=true&w=majority"
 
-mongoose.connect("mongodb+srv://deaconmofojones:Chuletas1@merchapp-a2iob.azure.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser:true }, function(err){
+mongoose.connect(mongoLocal, { useNewUrlParser:true }, function(err){
 	if (err) {
 		console.log(err);
+		mongoose.conect(mongoServer, {useNewUrlParser:true}, function(err){
+			if (err) {
+				console.log(err);
+			}
+		})
 	}
 });
 app.use(express.static("public"));
