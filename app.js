@@ -31,6 +31,25 @@ var itemSchema = new mongoose.Schema({
 
 var Item = mongoose.model("Item", itemSchema);
 
+var listItemSchema = new mongoose.Schema({
+	name: String,
+	store: String,
+	type: String,
+	amount: Number
+});
+
+var ListItem = mongoose.model("ListItem", listItemSchema);
+
+ListItem.create({
+	name:"Orange 1.5L",
+	store:"foodco",
+	type:"Plastic",
+	amount:10
+}, function(err,createdItem){
+	if (err) {
+		console.log(err);
+	}
+})
 
 
 app.get("/", function(req,res){
@@ -114,7 +133,21 @@ app.delete("/items/:id", function(req,res){
 			res.redirect("/items");
 		}
 	})
-})
+});
+
+
+app.get("/routine/:storeName", function(req,res){
+	ListItem.find({store:req.params.storeName}, function(err,items){
+		if (err) {
+			console.log("error in get /items: "+err);
+		} else {
+			res.render("routines.ejs", {items:items,storeName:req.params.storeName})
+		}
+	});
+});
+
+
+
 
 if (process.env.NODE_ENV === 'production') {
 

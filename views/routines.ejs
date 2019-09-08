@@ -1,0 +1,51 @@
+<% include partials/header.ejs %>
+
+<% var types = [] %>
+
+<% for (var i = 0; i < items.length; i++) {
+	 	if(types.indexOf(items[i].type)==-1) {
+		 	types.push(items[i].type);
+	 	}
+ 	} %>
+
+<% for (var k = 0; k < types.length; k++) { %>
+		<div class="ui vertical menu fluid">
+			<div class="item header"><h3><%= types[k] %></h3></div>
+			<% for (var i = 0; i < items.length; i++) { %>
+				<% if (items[i].type==types[k]) { %>
+					<div class="item" style="margin: auto; height: 100%;">
+						<div class="item" style="padding: 5px;display: inline-block;">
+								<%= items[i].name %>
+						</div>
+						<div class="ui label blue"><%= items[i].amount %></div>
+						<div class="ui icon buttons mini compact right floated" >
+							<form class="invisiform" method="POST" action="/items/<%= items[i]._id %>?_method=PUT">
+								<input type="text" name="item[name]" placeholder="name of item" value="<%= items[i].name %>">
+								<input type="text" name="item[image]" placeholder="image url" value="<%= items[i].image %>">
+								<input type="text" name="item[store]" placeholder="store" value="<%= items[i].store %>">
+								<input type="text" name="item[type]" placeholder="type" value="<%= items[i].type %>">
+								<input type="text" name="item[amount]" placeholder="amount" value="<%= items[i].amount + 1 %>">
+								<button type="submit" class="ui button"><i class="plus icon"></i></button>
+							</form>
+							<form class="invisiform" method="POST" action="/items/<%= items[i]._id %>?_method=PUT">
+								<input type="text" name="item[name]" placeholder="name of item" value="<%= items[i].name %>">
+								<input type="text" name="item[image]" placeholder="image url" value="<%= items[i].image %>">
+								<input type="text" name="item[store]" placeholder="store" value="<%= items[i].store %>">
+								<input type="text" name="item[type]" placeholder="type" value="<%= items[i].type %>">
+								<input type="text" name="item[amount]" placeholder="amount" value="<%= items[i].amount - 1 %>">
+								<button type="submit" class="ui button"><i class="minus icon"></i></button>	
+							</form>
+						</div>
+						<div class="ui icon buttons mini compact">
+						  <a class="ui button basic" href="/items/<%= items[i]._id %>/edit"><i class="wrench icon"></i></a>
+						</div>
+					</div>
+				<% } %>
+			<% } %>
+		</div>
+	<% } %>
+
+
+
+
+<% include partials/footer.ejs %>
