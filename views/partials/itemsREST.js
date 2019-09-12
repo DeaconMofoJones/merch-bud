@@ -1,31 +1,3 @@
-var express 	= require("express"),
-app				= express(),
-mongoose		= require("mongoose"),
-methodOverride 	= require("method-override"),
-bodyParser 		= require("body-parser"),
-port			= process.env.PORT || 3000,
-mongoLocal		= "mongodb://localhost:27017/merchandiser",
-mongoServer		= "mongodb+srv://deaconmofojones:Chuletas1@merchapp-a2iob.azure.mongodb.net/test?retryWrites=true&w=majority"
-
-mongoose.connect(mongoLocal, { useNewUrlParser:true }, function(err){
-	if (err) {
-		console.log(err);
-		mongoose.conect(mongoServer, {useNewUrlParser:true}, function(err){
-			if (err) {
-				console.log(err);
-			}
-		})
-	}
-});
-app.use(express.static("public"));
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(methodOverride("_method"));
-
-
-// ===============
-// -----ITEMS-----		---------------------------------
-// ===============
-
 var itemSchema = new mongoose.Schema({
 	name: String,
 	image: String,
@@ -117,46 +89,4 @@ app.delete("/items/:id", function(req,res){
 			res.redirect("/items");
 		}
 	})
-});
-
-
-
-// ==================
-// -----ROUTINES-----		---------------------------------
-// ==================
-
-
-
-
-var listItemSchema = new mongoose.Schema({
-	name: String,
-	store: String,
-	type: String,
-	amount: Number
-});
-
-var ListItem = mongoose.model("ListItem", listItemSchema);
-
-
-app.get("/store/routine/:storeName", function(req,res){
-	ListItem.find({store:req.params.storeName}, function(err,items){
-		if (err) {
-			console.log("error in get /items: "+err);
-		} else {
-			res.render("routine.ejs", {items:items,storeName:req.params.storeName})
-		}
-	});
-});
-
-
-
-
-if (process.env.NODE_ENV === 'production') {
-
-}
-
-
-
-app.listen(port, function(){
-	console.log("Merchandiser App has started")
 });

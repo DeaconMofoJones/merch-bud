@@ -2,8 +2,16 @@
 <% include partials/header.ejs %>
 
 
+<% function capitalize(string)  { %>
+
+    <% return string.charAt(0).toUpperCase() + string.slice(1); %>
+
+<% } %>
+
+
 <div class="ui segment">
-	<h1 class="ui header"><%= storeName %></h1>
+	<h1 class="ui header"><%= capitalize(storeName) %><a href="/store/routine/<%= storeName %>" class="positive ui button startListBtn">Start List</a></h1> Inventory
+
 </div>
     
     

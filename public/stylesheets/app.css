@@ -18,6 +18,17 @@ body {
 	padding: 5px;
 }
 
+.startListBtn {
+	float: right;
+}
+
+
+
+.hideLeft {
+	overflow: hidden;
+	transition: all .5 ease;
+	transform: translate(40px);
+}
 
 
 .buttons.mini {

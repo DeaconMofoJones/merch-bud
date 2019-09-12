@@ -1,0 +1,19 @@
+<% include partials/header.ejs %>
+
+<%= storeName %>
+
+This is the routine page
+
+<% for (var i = 0; i < items.length; i++) { %>
+	<h1 class="index<%= i %> transition hidden"><%= items[i].name %></h1>
+<% } %>
+
+<button id="plus1">plus 1</button>
+<button id="minus1">minus 1</button>
+
+
+
+
+<script type="text/javascript" src="/js/dom.js"></script>
+
+<% include partials/footer.ejs %>
