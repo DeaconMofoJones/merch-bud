@@ -9,10 +9,13 @@ mongoServer		= "mongodb+srv://deaconmofojones:Chuletas1@merchapp-a2iob.azure.mon
 
 mongoose.connect(mongoLocal, { useNewUrlParser:true }, function(err){
 	if (err) {
-		console.log(err);
-		mongoose.conect(mongoServer, {useNewUrlParser:true}, function(err){
+		console.log("connecting to online mongo server");
+		mongoose.connect(mongoServer, {useNewUrlParser:true}, function(err){
 			if (err) {
 				console.log(err);
+			}
+			else{
+				console.log("successfully connected to mongo database")
 			}
 		})
 	}
