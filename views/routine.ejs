@@ -1,19 +1,96 @@
 <% include partials/header.ejs %>
 
-<%= storeName %>
-
-This is the routine page
-
-<% for (var i = 0; i < items.length; i++) { %>
-	<h1 class="index<%= i %> transition hidden"><%= items[i].name %></h1>
-<% } %>
-
-<button id="plus1">plus 1</button>
-<button id="minus1">minus 1</button>
 
 
 
+This is the routine page for <%= storeName %>
 
-<script type="text/javascript" src="/js/dom.js"></script>
+<%
+	var largestIndex=0;
+	for (var i = 0; i < items.length; i++) {
+		if(items[i].index>largestIndex){
+			largestIndex=items[i].index;
+		}
+	}
+	var smallestIndex=0;
+	for (var i = 0; i < items.length; i++) {
+		if(items[i].index<smallestIndex){
+			smallestIndex=items[i].index;
+		}
+	}
+
+%>
+
+
+
+<div class="showMain">
+	<div class="showRow">
+<% for (var i = smallestIndex; i <= largestIndex; i++) { 
+		 for (var k = 0; k < items.length; k++) {  
+			 if(items[k].index==i){ %>
+				<div class="showSub">
+					<div class="ui card fluid">
+					    <div class="content">
+					      <div class="header">
+					        <%= items[k].name %>
+					      </div>
+					      <div class="meta">
+					        How many are needed? Index: <%= items[k].index %>
+					        <div class="ui icon buttons mini compact">
+						  <a class="ui button basic" href="/routineItem/<%= items[k]._id %>/edit"><i class="wrench icon"></i></a>
+						</div>
+					      </div>
+					      <div class="description">
+					        Elliot requested permission to view your contact details
+					      </div>
+					    </div>
+					    <div class="extra content">
+					      <div class="ui two buttons">
+					        <button class="ui labeled icon button btn-previous">
+							  <i class="left arrow icon"></i>
+							  Previous
+							</button>
+							<button class="ui right labeled icon button btn-next">
+							  <i class="right arrow icon"></i>
+							  Next
+							</button>
+					      </div>
+					    </div>
+					    
+					</div>
+				</div>
+			<% } }
+		}  %>
+</div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+	var showSize = <%= items.length %>;
+	var index = 0;
+	var offset = parseInt($(".showMain").css("width"));
+	console.log(offset);
+
+	function changeIndex(val){
+		if (index+val<showSize&&index+val>=0) {
+			index+=val;
+		}
+	}
+
+
+	$(".btn-next").click(function(){
+		changeIndex(1);
+		$(".showRow").css("transform", "translate("+-offset*index+"px)")
+	});
+
+	$(".btn-previous").click(function(){
+		changeIndex(-1);
+		$(".showRow").css("transform", "translate("+-offset*index+"px)")
+	});
+</script>
+
 
 <% include partials/footer.ejs %>

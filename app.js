@@ -72,7 +72,7 @@ app.post("/items", function(req,res){
 		if (err) {
 			res.render("newItem.ejs");
 		} else {
-			res.redirect("/items");
+			res.redirect("/items/"+createdItem.store);
 		}
 	})
 });
@@ -109,12 +109,12 @@ app.put("/items/:id", function(req,res){
 })
 
 app.delete("/items/:id", function(req,res){
-	Item.findByIdAndRemove(req.params.id, function(err){
+	Item.findByIdAndRemove(req.params.id, function(err, deletedItem){
 		if (err) {
 			console.log(err);
-			res.redirect("/items");
+			
 		} else {
-			res.redirect("/items");
+			res.redirect("/items/store/"+deletedItem.store);
 		}
 	})
 });
@@ -128,24 +128,71 @@ app.delete("/items/:id", function(req,res){
 
 
 
-var listItemSchema = new mongoose.Schema({
+var routineItemSchema = new mongoose.Schema({
 	name: String,
 	store: String,
 	type: String,
-	amount: Number
+	amount: Number,
+	index: Number
 });
 
-var ListItem = mongoose.model("ListItem", listItemSchema);
+var RoutineItem = mongoose.model("RoutineItem", routineItemSchema);
 
 
 app.get("/store/routine/:storeName", function(req,res){
-	ListItem.find({store:req.params.storeName}, function(err,items){
+	RoutineItem.find({store:req.params.storeName}, function(err,items){
 		if (err) {
 			console.log("error in get /items: "+err);
 		} else {
 			res.render("routine.ejs", {items:items,storeName:req.params.storeName})
 		}
 	});
+});
+
+app.get("/routine/new", function(req, res){
+	res.render("formNewRoutineItem.ejs");
+})
+
+app.post("/routineItem", function(req, res){
+	RoutineItem.create(req.body.routineItem, function(err, createdItem){
+		if (err) {
+			alert(err);
+			res.render("formNewRoutineItem.ejs");
+		} else {
+			res.redirect("/store/routine/"+req.body.routineItem.store);
+		}
+	})
+})
+
+app.put("/routineItem/:id", function(req,res){
+	RoutineItem.findByIdAndUpdate(req.params.id, req.body.item, function(err,updatedItem){
+		if (err) {
+			console.log(err);
+		} else {
+			res.redirect("/store/routine/"+req.body.routineItem.store);
+		}
+	})
+})
+
+app.get("/routineItem/:id/edit", function(req,res){
+	RoutineItem.findById(req.params.id, function(err,foundItem){
+		if (err) {
+			console.log(err)
+		} else {
+			res.render("editRoutineItem.ejs", {item:foundItem})
+		}
+	})
+})
+
+app.delete("/routineItem/:id", function(req,res){
+	RoutineItem.findByIdAndRemove(req.params.id, function(err,deletedItem){
+		if (err) {
+			console.log(err);
+			
+		} else {
+			res.redirect("/store/routine/"+deletedItem.store);
+		}
+	})
 });
 
 

@@ -10,6 +10,11 @@
 	}
 }*/
 
+* {
+	padding: 0;
+	margin: 0;
+}
+
 body {
 	margin-top: 50px;
 }
@@ -23,6 +28,9 @@ body {
 }
 
 
+.inline-block{
+	display: inline-block;
+}
 
 .hideLeft {
 	overflow: hidden;
@@ -30,6 +38,10 @@ body {
 	transform: translate(40px);
 }
 
+div.carousel {
+	outline: 2px solid red;
+	display: inline;
+}
 
 .buttons.mini {
 	width: 85px;
@@ -37,4 +49,44 @@ body {
 
 .invisiform input {
 	display: none;
+}
+
+/*slide show css*/
+.showSub {
+	font-size: 14px;
+	box-sizing: border-box;
+	padding: 10px;
+	height: 100%;
+	width: 100%;
+	display: inline-block;
+
+}
+
+.showSub:nth-child(odd){
+	background-color: gray;
+}
+
+.showSub:nth-child(even){
+	background-color: pink;
+}
+
+.showRow {
+	box-sizing: border-box;
+	height: 100%;
+	transition: transform 0.5s ease;
+}
+
+.showMain {
+	font-size: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	margin: 0 auto;
+	height: 500px;
+	/*border: 2px solid red;*/
+
+	position: relative;
+}
+
+.ui.card {
+	height: 100%;
 }
