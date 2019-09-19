@@ -4,17 +4,17 @@
 		<label>Name</label>
 		<input type="text" name="routineItem[name]" placeholder="name of item">
 	</div>
-	<div class="field">
+	<div class="field hidden">
 		<label>Store</label>
 		<select class="ui fluid dropdown" name="routineItem[store]" required="true">
 			<option value=""> </option>
-			<option value="foodco">FoodCo</option>
-			<option value="walmart">WalMart</option>
-			<option value="costless">CostLess</option>
-			<option value="bestbuy">BestBuy</option>
-			<option value="savemart">SaveMart</option>
-			<option value="exchange">NavyExchange</option>
-			<option value="jetmart">JetMart</option>
+			<option value="foodco" <% if (storeName=="foodco") { %> selected="true" <% } %>>FoodCo</option>
+			<option value="walmart" <% if (storeName=="walmart") { %> selected="true" <% } %>>WalMart</option>
+			<option value="costless" <% if (storeName=="costless") { %> selected="true" <% } %>>CostLess</option>
+			<option value="bestbuy" <% if (storeName=="bestbuy") { %> selected="true" <% } %>>BestBuy</option>
+			<option value="savemart" <% if (storeName=="savemart") { %> selected="true" <% } %>>SaveMart</option>
+			<option value="exchange" <% if (storeName=="exhchange") { %> selected="true" <% } %>>NavyExchange</option>
+			<option value="jetmart" <% if (storeName=="jetmart") { %> selected="true" <% } %>>JetMart</option>
 		</select>
 	</div>
 	<div class="field">

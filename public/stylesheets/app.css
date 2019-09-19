@@ -47,7 +47,7 @@ div.carousel {
 	width: 85px;
 }
 
-.invisiform input {
+.invisiform input, .hidden {
 	display: none;
 }
 

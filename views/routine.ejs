@@ -5,6 +5,10 @@
 
 This is the routine page for <%= storeName %>
 
+<div>
+	<a href="/routine/new/<%= storeName %>" class="ui button blue">Add Routine Item</a>
+</div>
+
 <%
 	var largestIndex=0;
 	for (var i = 0; i < items.length; i++) {

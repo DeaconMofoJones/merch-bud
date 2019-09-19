@@ -66,8 +66,8 @@ app.get("/items/store/:storeName", function(req,res){
 });
 
 
-app.get("/items/new", function(req,res){
-	res.render("newItem.ejs");
+app.get("/items/new/:storeName", function(req,res){
+	res.render("newItem.ejs", {storeName:req.params.storeName});
 });
 
 app.post("/items", function(req,res){
@@ -75,7 +75,7 @@ app.post("/items", function(req,res){
 		if (err) {
 			res.render("newItem.ejs");
 		} else {
-			res.redirect("/items/"+createdItem.store);
+			res.redirect("/items/store/"+createdItem.store);
 		}
 	})
 });
@@ -152,8 +152,8 @@ app.get("/store/routine/:storeName", function(req,res){
 	});
 });
 
-app.get("/routine/new", function(req, res){
-	res.render("formNewRoutineItem.ejs");
+app.get("/routine/new/:storeName", function(req, res){
+	res.render("formNewRoutineItem.ejs", {storeName:req.params.storeName});
 })
 
 app.post("/routineItem", function(req, res){
