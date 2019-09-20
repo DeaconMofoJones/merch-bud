@@ -7,9 +7,9 @@
 
 <% } %>
 
-<% storeName = capitalize(storeName) %>
 
-<h1>New Item For <%= storeName %></h1>
+
+<h1>New Item For <%= capitalize(storeName) %></h1>
 
 <form class="ui form" method="POST" action="/items">
 	<div class="field">
@@ -35,7 +35,7 @@
 	</div>
 	<div class="field">
 		<label>Type</label>
-		<select class="ui fluid dropdown" name="item[type]" required="true">
+		<!-- <select class="ui fluid dropdown" name="item[type]" required="true">
 			<option value=""> </option>
 			<option value="Plastic">Plastic</option>
 			<option value="Glass">Glass</option>
@@ -44,7 +44,17 @@
 			<option value="Water">Water</option>
 			<option value="Calypso">Calypso</option>
 			<option value="Arizona">Arizona</option>
-		</select>
+		</select> -->
+		
+			<input type="radio" name="item[type]" value="Plastic" required class="item">Plastic
+			<input type="radio" name="item[type]" value="Glass" >Glass
+			<input type="radio" name="item[type]" value="Beer" >Beer
+			<input type="radio" name="item[type]" value="Bang" >Bang
+			<input type="radio" name="item[type]" value="Water" >Water
+			<input type="radio" name="item[type]" value="Calypso" >Calypso
+			<input type="radio" name="item[type]" value="Arizona" >Arizona
+		
+		
 	</div>
 	<div class="field">
 		<label>Amount</label>
