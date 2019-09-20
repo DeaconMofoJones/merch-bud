@@ -34,7 +34,15 @@
 	</div>
 	<div class="field">
 		<label>Amount</label>
-		<input type="number" name="routineItem[amount]" placeholder="amount" required="true" value="<%= item.amount %>">
+		<div class="ui icon buttons tiny">
+		<div class="ui button" id="plusBtn">
+			<i class="plus icon"></i>	
+		</div>
+		<div class="ui button" id="minusBtn">
+			<i class="minus icon"></i>	
+		</div>
+		</div>
+		<input type="number" name="routineItem[amount]" placeholder="amount" required="true" id="numInput" value="<%= item.amount %>">
 	</div>
 	<div class="field">
 		<label>Index</label>
@@ -47,7 +55,17 @@
 	</form>
 
 
-
+<script type="text/javascript">
+	var newVal = parseInt($("#numInput").val())
+	$("#plusBtn").click(function(){
+		newVal+=1;
+		$("#numInput").val(newVal)
+	})
+	$("#minusBtn").click(function(){
+		newVal-=1;
+		$("#numInput").val(newVal)
+	})
+</script>
 
 
 

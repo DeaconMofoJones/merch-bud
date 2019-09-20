@@ -58,9 +58,29 @@
 	</div>
 	<div class="field">
 		<label>Amount</label>
-		<input type="number" name="item[amount]" placeholder="amount" required="true">
+		<div class="ui icon buttons tiny">
+		<div class="ui button" id="plusBtn">
+			<i class="plus icon"></i>	
+		</div>
+		<div class="ui button" id="minusBtn">
+			<i class="minus icon"></i>	
+		</div>
+		</div>
+		<input type="number" name="item[amount]" placeholder="amount" required="true" id="numInput" value="0">
 	</div>
 	<button class="ui button blue fluid" type="submit">Submit</button>
 </form>
+
+<script type="text/javascript">
+	var newVal = parseInt($("#numInput").val())
+	$("#plusBtn").click(function(){
+		newVal+=1;
+		$("#numInput").val(newVal)
+	})
+	$("#minusBtn").click(function(){
+		newVal-=1;
+		$("#numInput").val(newVal)
+	})
+</script>
 
 <% include partials/footer.ejs %>
