@@ -49,11 +49,11 @@
 			<div class="item header"><h3><%= types[k] %></h3></div>
 			<% for (var i = 0; i < items.length; i++) { %>
 				<% if (items[i].type==types[k]) { %>
-					<div class="item" style="margin: auto; height: 100%;">
+					<div class="item" style="margin: auto; height: 100%; <% if (items[i].amount<=0) { %>background-color: #f5f5f5;<% } %> ">
 						<div class="item" style="padding: 5px;display: inline-block;">
 								<%= items[i].name %>
 						</div>
-						<div class="ui label blue"><%= items[i].amount %></div>
+						<div class="ui label <% if (items[i].amount<=0) {%> red <% } else { %>blue <% } %>"><%= items[i].amount %></div>
 						<div class="ui icon buttons mini compact right floated" >
 							<form class="invisiform" method="POST" action="/items/<%= items[i]._id %>?_method=PUT">
 								<input type="text" name="item[name]" placeholder="name of item" value="<%= items[i].name %>">
