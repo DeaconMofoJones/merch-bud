@@ -168,11 +168,21 @@ app.post("/routineItem", function(req, res){
 })
 
 app.put("/routineItem/:id", function(req,res){
-	RoutineItem.findByIdAndUpdate(req.params.id, req.body.item, function(err,updatedItem){
+	RoutineItem.findByIdAndUpdate(req.params.id, req.body.routineItem, function(err,updatedItem){
 		if (err) {
 			console.log(err);
 		} else {
 			res.redirect("/store/routine/"+req.body.routineItem.store);
+		}
+	})
+})
+
+app.put("/routineItemNoRedirect/:id", function(req,res){
+	RoutineItem.findByIdAndUpdate(req.params.id, req.body.routineItem, function(err,updatedItem){
+		if (err) {
+			console.log(err);
+		} else {
+			
 		}
 	})
 })
@@ -196,6 +206,16 @@ app.delete("/routineItem/:id", function(req,res){
 			res.redirect("/store/routine/"+deletedItem.store);
 		}
 	})
+});
+
+app.get("/viewList/:storeName", function(req,res){
+	RoutineItem.find({store:req.params.storeName}, function(err,items){
+		if (err) {
+			console.log("error in get /items: "+err);
+		} else {
+			res.render("showList.ejs", {items:items,storeName:req.params.storeName})
+		}
+	});
 });
 
 

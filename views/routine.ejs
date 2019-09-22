@@ -33,6 +33,7 @@ This is the routine page for <%= storeName %>
 		 for (var k = 0; k < items.length; k++) {  
 			 if(items[k].index==i){ %>
 				<div class="showSub">
+					<form class="" method="POST" action="/routineItemNoRedirect/<%= items[k]._id %>?_method=PUT">
 					<div class="ui card fluid">
 					    <div class="content">
 					      <div class="header">
@@ -44,8 +45,28 @@ This is the routine page for <%= storeName %>
 						  <a class="ui button basic" href="/routineItem/<%= items[k]._id %>/edit"><i class="wrench icon"></i></a>
 						</div>
 					      </div>
-					      <div class="description">
-					        Elliot requested permission to view your contact details
+					      <div class="description right floated">
+					        <br>
+					        <div class="ui button icon minusBtn"><i class="minus icon"></i></div>
+					        <input type="text" name="routineItem[amount]" value="0">
+					        <div class="ui button icon plusBtn"><i class="plus icon"></i></div>
+					        <div class="numpad">
+						        <div class="ui buttons huge">
+								  <div class="ui button" meta="1">1</div>
+								  <div class="ui button" meta="2">2</div>
+								  <div class="ui button" meta="3">3</div>
+								</div> <br>
+								<div class="ui buttons huge">
+								  <div class="ui button" meta="4">4</div>
+								  <div class="ui button" meta="5">5</div>
+								  <div class="ui button" meta="6">6</div>
+								</div> <br>
+								<div class="ui buttons huge">
+								  <div class="ui button" meta="7">7</div>
+								  <div class="ui button" meta="8">8</div>
+								  <div class="ui button" meta="9">9</div>
+								</div>
+							</div>
 					      </div>
 					    </div>
 					    <div class="extra content">
@@ -62,9 +83,26 @@ This is the routine page for <%= storeName %>
 					    </div>
 					    
 					</div>
+					</form>
 				</div>
+				
 			<% } }
 		}  %>
+		<div class="showSub">
+			<a href="/viewList/<%= storeName %>" class="ui button green">Finish and View List</a>
+			<div class="extra content">
+		      <div class="ui two buttons">
+		        <button class="ui labeled icon button btn-previous">
+				  <i class="left arrow icon"></i>
+				  Previous
+				</button>
+				<button class="ui right labeled icon button btn-next">
+				  
+				  
+				</button>
+		      </div>
+		    </div>
+		</div>
 </div>
 </div>
 
@@ -76,10 +114,10 @@ This is the routine page for <%= storeName %>
 	var showSize = <%= items.length %>;
 	var index = 0;
 	var offset = parseInt($(".showMain").css("width"));
-	console.log(offset);
+	
 
 	function changeIndex(val){
-		if (index+val<showSize&&index+val>=0) {
+		if (index+val<showSize+1&&index+val>=0) {
 			index+=val;
 		}
 	}
@@ -94,6 +132,23 @@ This is the routine page for <%= storeName %>
 		changeIndex(-1);
 		$(".showRow").css("transform", "translate("+-offset*index+"px)")
 	});
+</script>
+
+<script type="text/javascript">
+	var newVal = parseInt($("#numInput").val())
+	$(".plusBtn").click(function(){
+		newVal+=1;
+		$(this).siblings("input").val(newVal)
+	})
+	$(".minusBtn").click(function(){
+		newVal-=1;
+		$(this).siblings("input").val(newVal)
+	})
+	$(".numpad .button").click(function(){
+		newVal=parseInt($(this).attr("meta"))
+		$(this).parent().parent().siblings("input").val(newVal)
+	})
+	
 </script>
 
 
