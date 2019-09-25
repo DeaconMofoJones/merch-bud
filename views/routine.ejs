@@ -47,24 +47,24 @@ This is the routine page for <%= storeName %>
 					      </div>
 					      <div class="description right floated">
 					        <br>
-					        <div class="ui button icon minusBtn"><i class="minus icon"></i></div>
-					        <input type="text" name="routineItem[amount]" value="0">
-					        <div class="ui button icon plusBtn"><i class="plus icon"></i></div>
+					        <div uid="<%= items[k]._id %>" class="ui button icon minusBtn"><i class="minus icon"></i></div>
+					        <input type="text" name="routineItem[amount]" value="0" class="<%=items[k]._id%>">
+					        <div uid="<%= items[k]._id %>" class="ui button icon plusBtn"><i class="plus icon"></i></div>
 					        <div class="numpad">
 						        <div class="ui buttons huge">
-								  <div class="ui button" meta="1">1</div>
-								  <div class="ui button" meta="2">2</div>
-								  <div class="ui button" meta="3">3</div>
+								  <div class="ui button" meta="1" uid="<%=items[k]._id%>">1</div>
+								  <div class="ui button" meta="2" uid="<%=items[k]._id%>">2</div>
+								  <div class="ui button" meta="3" uid="<%=items[k]._id%>">3</div>
 								</div> <br>
 								<div class="ui buttons huge">
-								  <div class="ui button" meta="4">4</div>
-								  <div class="ui button" meta="5">5</div>
-								  <div class="ui button" meta="6">6</div>
+								  <div class="ui button" meta="4" uid="<%=items[k]._id%>">4</div>
+								  <div class="ui button" meta="5" uid="<%=items[k]._id%>">5</div>
+								  <div class="ui button" meta="6" uid="<%=items[k]._id%>">6</div>
 								</div> <br>
 								<div class="ui buttons huge">
-								  <div class="ui button" meta="7">7</div>
-								  <div class="ui button" meta="8">8</div>
-								  <div class="ui button" meta="9">9</div>
+								  <div class="ui button" meta="7" uid="<%=items[k]._id%>">7</div>
+								  <div class="ui button" meta="8" uid="<%=items[k]._id%>">8</div>
+								  <div class="ui button" meta="9" uid="<%=items[k]._id%>">9</div>
 								</div>
 							</div>
 					      </div>
@@ -135,18 +135,25 @@ This is the routine page for <%= storeName %>
 </script>
 
 <script type="text/javascript">
-	var newVal = parseInt($("#numInput").val())
 	$(".plusBtn").click(function(){
+		var id = $(this).attr("uid")
+		var newVal = parseInt($("."+id).val())
+		console.log(newVal)
 		newVal+=1;
+		console.log(newVal)
+		
 		$(this).siblings("input").val(newVal)
 	})
 	$(".minusBtn").click(function(){
+		var id = $(this).attr("uid")
+		var newVal = parseInt($("."+id).val())
 		newVal-=1;
 		$(this).siblings("input").val(newVal)
 	})
 	$(".numpad .button").click(function(){
 		newVal=parseInt($(this).attr("meta"))
-		$(this).parent().parent().siblings("input").val(newVal)
+		var id = $(this).attr("uid")
+		$("."+id).val(newVal)
 	})
 	
 </script>
