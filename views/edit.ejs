@@ -39,14 +39,38 @@
 	<div class="field">
 		<label>Amount</label>
 		<div class="ui icon buttons tiny">
-		<div class="ui button" id="plusBtn">
+		<div class="ui button plusBtn">
 			<i class="plus icon"></i>	
 		</div>
-		<div class="ui button" id="minusBtn">
+		<div class="ui button minusBtn">
 			<i class="minus icon"></i>	
 		</div>
 		</div>
-		<input type="number" name="item[amount]" placeholder="amount" required="true" id="numInput" value="<%= item.amount %>">
+		<input type="number" name="item[amount]" placeholder="amount" required="true" class="numInput" value="<%= item.amount %>">
+	</div>
+	<div class="field">
+		<label>List Count</label>
+		<div class="ui icon buttons tiny">
+		<div class="ui button plusBtn">
+			<i class="plus icon"></i>	
+		</div>
+		<div class="ui button minusBtn">
+			<i class="minus icon"></i>	
+		</div>
+		</div>
+		<input class="numInput" type="number" name="item[listCount]" placeholder="list count" required="true"  value="<%= item.listCount %>">
+	</div>
+	<div class="field">
+		<label>Index</label>
+		<div class="ui icon buttons tiny">
+		<div class="ui button plusBtn">
+			<i class="plus icon"></i>	
+		</div>
+		<div class="ui button minusBtn">
+			<i class="minus icon"></i>	
+		</div>
+		</div>
+		<input class="numInput" type="number" name="item[index]" placeholder="index" required="true"  value="<%= item.index %>">
 	</div>
 	<button class="ui button blue" type="submit">Update</button>
 	<a href="/items/<%= item._id %>" class="ui button red">Delete</a>
@@ -54,14 +78,17 @@
 
 
 <script type="text/javascript">
-	var newVal = parseInt($("#numInput").val())
-	$("#plusBtn").click(function(){
+	$(".plusBtn").click(function(){
+		var numInput = $(this).parent().siblings("input")
+		var newVal = parseInt(numInput.val())
 		newVal+=1;
-		$("#numInput").val(newVal)
+		numInput.val(newVal)
 	})
-	$("#minusBtn").click(function(){
+	$(".minusBtn").click(function(){
+		var numInput = $(this).parent().siblings("input")
+		var newVal = parseInt(numInput.val())
 		newVal-=1;
-		$("#numInput").val(newVal)
+		numInput.val(newVal)
 	})
 </script>
 

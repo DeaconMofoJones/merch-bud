@@ -1,0 +1,252 @@
+<% include partials/header.ejs %>
+
+
+<% function capitalize(string)  { %>
+
+    <% return string.charAt(0).toUpperCase() + string.slice(1); %>
+
+<% } %>
+
+
+<div class="ui segment">
+	<h1 class="ui header"><%= capitalize(storeName) %></h1>
+</div>
+    
+
+<div class="ui vertical menu fluid">
+	<div class="item">
+		<div class="ui button zeroAllBtn">zero all</div>
+	</div>
+</div>
+
+
+<% var types = [] %>
+
+<% for (var i = 0; i < items.length; i++) {
+	 	if(types.indexOf(items[i].type)==-1) {
+		 	types.push(items[i].type);
+	 	}
+ 	} %>
+
+
+<% 	var lowestIndex=0;
+	var largestIndex=0;
+ %>
+
+<% for (var i = 0; i < items.length; i++) {
+	if (items[i].index<lowestIndex) {
+		lowestIndex=items[i].index;
+	}
+	if (items[i].index>largestIndex) {
+		largestIndex=items[i].index;
+	}
+} %>
+	
+
+
+	<!-- 
+	Create an array
+	Populate the array with objects
+		-Each List Amount Display will be an object
+		-Each List Amount Display object will have 2 properties:
+			1. ID of List Item which this display correlates to
+			2. The HTML content which stores the list amount value
+
+	 -->
+
+<form class="" method="POST" action="/multiUpdate/<%= items.length %>/false/<%= storeName %>?_method=PUT">
+
+	<% for (var k = 0; k < types.length; k++) { %>
+		<div class="ui vertical menu fluid">
+			<div class="item header"><h3><%= types[k] %></h3></div>
+			<% for (var l = lowestIndex; l <= largestIndex; l++) { %>
+			<% for (var i = 0; i < items.length; i++) { %>
+				<% if (items[i].type==types[k]&&items[i].index==l) { %>
+					<div class="item menu" style="margin: auto; height: 100%; <% if (items[i].amount<=0) { %>background-color: #f5f5f5;<% } %> ">
+						<div class="item header" style="padding: 5px;display: inline-block;">
+								<%= items[i].name %>
+								
+						</div>
+						<div class="ui label <% if (items[i].amount<=0) {%> gray <% } else { %>gray <% } %>"><%= items[i].amount %></div>
+
+
+						<div class="ui teal label massive listCountDisplay <%= items[i]._id %>" UID="<%= items[i]._id %>"><%= items[i].index %></div>
+
+						<div class="ui icon buttons mini compact right floated" >
+							
+								
+								<div class="ui button plusBtn" uid="<%= items[i]._id %>"><i class="plus icon"></i></div>
+							
+							
+								
+								<div class="ui button minusBtn" uid="<%= items[i]._id %>"><i class="minus icon"></i></div>
+
+
+								<div class="ui button zeroBtn" uid="<%= items[i]._id %>">zero</div>	
+							
+						</div>
+
+						<div class="ui icon buttons mini compact">
+						  <a class="ui button basic" href="/items/<%= items[i]._id %>/edit"><i class="wrench icon"></i></a>
+						</div>
+					</div>
+
+					<div class="hidden">
+					<div class="field">
+						<label>Name</label>
+						<input type="text" name="<%= i %>[name]" placeholder="name of item" value="<%= items[i].name %>">
+					</div>
+					<div class="field">
+						<label>Image</label>
+						<input type="text" name="<%= i %>[image]" placeholder="image url" value="<%= items[i].image %>">
+					</div>
+					<div class="field">
+						<label>Store</label>
+						<select class="ui fluid dropdown" name="<%= i %>[store]" required="true">
+							<option value=""> </option>
+							<option value="foodco" <% if (items[i].store=="foodco") { %> selected="true" <% } %>>FoodCo</option>
+							<option value="walmart" <% if (items[i].store=="walmart") { %> selected="true" <% } %>>WalMart</option>
+							<option value="costless" <% if (items[i].store=="costless") { %> selected="true" <% } %>>CostLess</option>
+							<option value="bestbuy" <% if (items[i].store=="bestbuy") { %> selected="true" <% } %>>BestBuy</option>
+							<option value="savemart" <% if (items[i].store=="savemart") { %> selected="true" <% } %>>SaveMart</option>
+							<option value="exchange" <% if (items[i].store=="exhchange") { %> selected="true" <% } %>>NavyExchange</option>
+							<option value="jetmart" <% if (items[i].store=="jetmart") { %> selected="true" <% } %>>JetMart</option>
+						</select>
+					</div>
+					<div class="field">
+						<label>Type</label>
+						<select class="ui fluid dropdown" name="<%= i %>[type]" required="true">
+							<option value=""> </option>
+							<option value="Plastic" <% if (items[i].type=="Plastic") { %> selected="true" <% } %>>Plastic</option>
+							<option value="Glass" <% if (items[i].type=="Glass") { %> selected="true" <% } %>>Glass</option>
+							<option value="Beer" <% if (items[i].type=="Beer") { %> selected="true" <% } %>>Beer</option>
+							<option value="Bang" <% if (items[i].type=="Bang") { %> selected="true" <% } %>>Bang</option>
+							<option value="Water" <% if (items[i].type=="Water") { %> selected="true" <% } %>>Water</option>
+							<option value="Calypso" <% if (items[i].type=="Calypso") { %> selected="true" <% } %>>Calypso</option>
+							<option value="Arizona" <% if (items[i].type=="Arizona") { %> selected="true" <% } %>>Arizona</option>
+						</select>
+
+				 </div>
+					<div class="field">
+						<label>Amount</label>
+						<div class="ui icon buttons tiny">
+						<div class="ui button plusBtn">
+							<i class="plus icon"></i>	
+						</div>
+						<div class="ui button minusBtn">
+							<i class="minus icon"></i>	
+						</div>
+						</div>
+						<input type="number" name="<%= i %>[amount]" placeholder="amount" required="true" class="numInput" value="<%= items[i].amount %>">
+					</div>
+					<div class="field listCountContainer">
+						<label>List Count</label>
+						<div class="ui icon buttons tiny">
+						<div class="ui button plusBtn">
+							<i class="plus icon"></i>	
+						</div>
+						<div class="ui button minusBtn">
+							<i class="minus icon"></i>	
+						</div>
+						</div>
+						<input class="numInput listCountInput <%= items[i]._id %>" type="number" name="<%= i %>[listCount]" placeholder="list count" required="true"  value="<%= items[i].listCount %>">
+					</div>
+					<div class="field">
+						<label>Index</label>
+						<div class="ui icon buttons tiny">
+						<div class="ui button plusBtn">
+							<i class="plus icon"></i>	
+						</div>
+						<div class="ui button minusBtn">
+							<i class="minus icon"></i>	
+						</div>
+						</div>
+						<input class="numInput indexInput <%= items[i]._id %>" type="number" name="<%= i %>[index]" placeholder="index" required="true"  value="<%= items[i].index %>">
+					</div>
+					<div class="field">
+						<label>UID</label>
+						<input class="" type="text" name="<%= i %>[UID]" placeholder="UID" required="true"  value="<%= items[i]._id %>">
+					</div>
+					<button class="ui button blue" type="submit">Update</button>
+					<a href="/items/<%= items[i]._id %>" class="ui button red">Delete</a>
+					</div>
+
+
+
+				<% } %>
+			<% } %>
+			<% } %>
+
+		</div>
+	<% } %>
+<button class="ui button blue" type="submit">Update</button>
+</form>
+<a href="/items/store/<%=storeName%>" class="ui button blue">Home</a>
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+	$(".plusBtn").click(function(){
+		var UID = $(this).attr("UID")
+		var display = $(".listCountDisplay."+UID)
+		// var display2 = $(this).parent().parent().siblings(".listCountContainer").children(".listCountInput")
+		var display2 = $(".indexInput."+UID)
+		console.log(display);
+		console.log(display2);
+		var newVal = parseInt(display.html())
+		newVal+=1;
+		display.html(newVal)
+		display2.val(newVal)
+	})
+	$(".listCountDisplay").click(function(){
+		var UID = $(this).attr("UID")
+		var newVal = parseInt($(this).html());
+		var display2 = $(".indexInput."+UID)
+		newVal+=1;
+		$(this).html(newVal);
+		display2.val(newVal);
+	})
+	$(".minusBtn").click(function(){
+		var UID = $(this).attr("UID")
+		var display = $(".listCountDisplay."+UID)
+		// var display2 = $(this).parent().parent().siblings(".listCountContainer").children(".listCountInput")
+		var display2 = $(".indexInput."+UID)
+		console.log(display);
+		console.log(display2);
+		var newVal = parseInt(display.html())
+		newVal-=1;
+		display.html(newVal)
+		display2.val(newVal)
+	})
+	$(".zeroBtn").click(function(){
+		var UID = $(this).attr("UID")
+		var display = $(".listCountDisplay."+UID)
+		// var display2 = $(this).parent().parent().siblings(".listCountContainer").children(".listCountInput")
+		var display2 = $(".indexInput."+UID)
+		console.log(display);
+		console.log(display2);
+		var newVal = parseInt(display.html())
+		newVal=0;
+		display.html(newVal)
+		display2.val(newVal)
+	})
+	$(".zeroAllBtn").click(function(){
+		var display = $(".listCountDisplay")
+		var display2 = $(".indexInput")
+		newVal=0;
+		display.html(newVal)
+		display2.val(newVal)
+	})
+</script>
+
+
+
+
+
+<% include partials/footer.ejs %>
