@@ -8,7 +8,7 @@
 <% } %>
 
 
-
+<a href="/items/store/<%= storeName %>" class="ui button gray">Back</a>
 <h1>New Item For <%= capitalize(storeName) %></h1>
 
 <form class="ui form" method="POST" action="/items">
@@ -59,57 +59,27 @@
 	<div class="field">
 		<label>Amount</label>
 		<div class="ui icon buttons tiny">
-		<div class="ui button plusBtn">
+		<div class="ui button" id="plusBtn">
 			<i class="plus icon"></i>	
 		</div>
-		<div class="ui button minusBtn">
+		<div class="ui button" id="minusBtn">
 			<i class="minus icon"></i>	
 		</div>
 		</div>
-		<input type="number" class="numInput" name="item[amount]" placeholder="amount" required="true" value="0">
-	</div>
-	<div class="field hidden">
-		<label>List Count</label>
-		<div class="ui icon buttons tiny">
-		<div class="ui button plusBtn">
-			<i class="plus icon"></i>	
-		</div>
-		<div class="ui button minusBtn">
-			<i class="minus icon"></i>	
-		</div>
-		</div>
-		<input class="numInput" type="number" name="item[listCount]" placeholder="list count" required="true"  value="0">
-	</div>
-	<div class="field hidden">
-		<label>Index</label>
-		<div class="ui icon buttons tiny">
-		<div class="ui button plusBtn">
-			<i class="plus icon"></i>	
-		</div>
-		<div class="ui button minusBtn">
-			<i class="minus icon"></i>	
-		</div>
-		</div>
-		<input class="numInput" type="number" name="item[index]" placeholder="index" required="true"  value="0">
+		<input type="number" name="item[amount]" placeholder="amount" required="true" id="numInput" value="0">
 	</div>
 	<button class="ui button blue fluid" type="submit">Submit</button>
 </form>
 
-
-
-
 <script type="text/javascript">
-	$(".plusBtn").click(function(){
-		var numInput = $(this).parent().siblings("input")
-		var newVal = parseInt(numInput.val())
+	var newVal = parseInt($("#numInput").val())
+	$("#plusBtn").click(function(){
 		newVal+=1;
-		numInput.val(newVal)
+		$("#numInput").val(newVal)
 	})
-	$(".minusBtn").click(function(){
-		var numInput = $(this).parent().siblings("input")
-		var newVal = parseInt(numInput.val())
+	$("#minusBtn").click(function(){
 		newVal-=1;
-		numInput.val(newVal)
+		$("#numInput").val(newVal)
 	})
 </script>
 

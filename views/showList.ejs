@@ -1,10 +1,16 @@
 <% include partials/header.ejs %>
 
 
+<% function capitalize(string)  { %>
+
+    <% return string.charAt(0).toUpperCase() + string.slice(1); %>
+
+<% } %>
 
 
-
-
+<div class="ui segment">
+	<h1 class="ui header"><%= capitalize(storeName)%> List</h1>
+</div>
 
 <% var types = [] %>
 
@@ -14,38 +20,28 @@
 	 	}
  	} %>
 
-<% 	var lowestIndex=0;
-	var largestIndex=0;
- %>
 
-<% for (var i = 0; i < items.length; i++) {
-	if (items[i].index<lowestIndex) {
-		lowestIndex=items[i].index;
-	}
-	if (items[i].index>largestIndex) {
-		largestIndex=items[i].index;
-	}
-} %>
-	
 
 <% for (var k = 0; k < types.length; k++) { %>
 	<div class="ui vertical menu fluid">
 			<div class="item header"><h3><%= types[k] %></h3></div>
-			<% for (var l = lowestIndex; l <= largestIndex; l++) { %>
 			<% for (var i = 0; i < items.length; i++) { %>
-				<% if (items[i].type==types[k]&&items[i].index==l) { %>
+				<% if (items[i].type==types[k]) { %>
 					<div class="item" style="margin: auto; height: 100%; <% if (items[i].amount<=0) { %>background-color: #f5f5f5;<% } %> ">
 						<div class="item" style="padding: 5px;display: inline-block;">
 								<%= items[i].name %>
 						</div>
+<<<<<<< Updated upstream
+						<div class="ui label <% if (items[i].amount<=0) {%> red <% } else { %>blue <% } %>"><%= items[i].amount %></div>
+						
+=======
 						<div class="ui label <% if (items[i].amount<=0) {%> gray <% } else { %>gray <% } %>"><%= items[i].amount %></div>
-						<div class="ui green label massive listCountDisplay <%= items[i]._id %>" UID="<%= items[i]._id %>"><%= items[i].listCount %></div>
+						<div class="ui <%if (items[i].listCount==0) { %> gray  <% } else { %> green <% } %> label massive listCountDisplay <%= items[i]._id %>" UID="<%= items[i]._id %>"><%= items[i].listCount %></div>
+>>>>>>> Stashed changes
 						
 					</div>
 				<% } %>
 			<% } %>
-			<% } %>
-
 		</div>
 <% } %>
 
