@@ -31,13 +31,10 @@
 						<div class="item" style="padding: 5px;display: inline-block;">
 								<%= items[i].name %>
 						</div>
-<<<<<<< Updated upstream
-						<div class="ui label <% if (items[i].amount<=0) {%> red <% } else { %>blue <% } %>"><%= items[i].amount %></div>
-						
-=======
+
 						<div class="ui label <% if (items[i].amount<=0) {%> gray <% } else { %>gray <% } %>"><%= items[i].amount %></div>
 						<div class="ui <%if (items[i].listCount==0) { %> gray  <% } else { %> green <% } %> label massive listCountDisplay <%= items[i]._id %>" UID="<%= items[i]._id %>"><%= items[i].listCount %></div>
->>>>>>> Stashed changes
+
 						
 					</div>
 				<% } %>
