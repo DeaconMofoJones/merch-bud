@@ -29,7 +29,7 @@
 			<option value="costless" <% if (storeName=="costless") { %> selected="true" <% } %>>CostLess</option>
 			<option value="bestbuy" <% if (storeName=="bestbuy") { %> selected="true" <% } %>>BestBuy</option>
 			<option value="savemart" <% if (storeName=="savemart") { %> selected="true" <% } %>>SaveMart</option>
-			<option value="exchange" <% if (storeName=="exhchange") { %> selected="true" <% } %>>NavyExchange</option>
+			<option value="exchange" <% if (storeName=="exchange") { %> selected="true" <% } %>>NavyExchange</option>
 			<option value="jetmart" <% if (storeName=="jetmart") { %> selected="true" <% } %>>JetMart</option>
 		</select>
 	</div>
@@ -68,7 +68,16 @@
 		</div>
 		<input type="number" name="item[amount]" placeholder="amount" required="true" id="numInput" value="0">
 	</div>
+	<div class="field hidden">
+		<label>List Count</label>
+		<input class="" type="number" name="item[listCount]" placeholder="list count" required="true"  value="<%= 0 %>">
+	</div>
+	<div class="field hidden">
+		<label>Index</label>
+		<input class="" type="number" name="item[index]" placeholder="index" required="true"  value="<%= 0 %>">
+	</div>
 	<button class="ui button blue fluid" type="submit">Submit</button>
+
 </form>
 
 <script type="text/javascript">

@@ -18,6 +18,8 @@ mongoose.connect(mongoLocal, { useNewUrlParser:true }, function(err){
 				console.log("successfully connected to mongo database")
 			}
 		})
+	} else	{
+		console.log("successfully connected to local mongo database")
 	}
 });
 app.use(express.static("public"));
@@ -66,6 +68,8 @@ app.get("/items/store/:storeName", function(req,res){
 	});
 	
 });
+
+
 
 
 
