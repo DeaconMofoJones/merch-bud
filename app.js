@@ -3,6 +3,7 @@ app				= express(),
 mongoose		= require("mongoose"),
 methodOverride 	= require("method-override"),
 bodyParser 		= require("body-parser"),
+Item 			= require("./models/item.js"),
 port			= process.env.PORT || 3000,
 mongoLocal		= "mongodb://localhost:27017/merchandiser",
 mongoServer		= "mongodb+srv://deaconmofojones:Chuletas1@merchapp-a2iob.azure.mongodb.net/test?retryWrites=true&w=majority"
@@ -31,17 +32,7 @@ app.use(methodOverride("_method"));
 // -----ITEMS-----		---------------------------------
 // ===============
 
-var itemSchema = new mongoose.Schema({
-	name: String,
-	image: String,
-	store: String,
-	type: String,
-	amount: Number,
-	listCount:Number,
-	index: Number
-})
 
-var Item = mongoose.model("Item", itemSchema);
 
 app.get("/", function(req,res){
 	res.redirect("/items/store/foodco");
