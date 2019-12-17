@@ -4,6 +4,7 @@ mongoose		= require("mongoose"),
 methodOverride 	= require("method-override"),
 bodyParser 		= require("body-parser"),
 Item 			= require("./models/item.js"),
+User 			= require("./models/user.js"),
 port			= process.env.PORT || 3000,
 mongoLocal		= "mongodb://localhost:27017/merchandiser",
 mongoServer		= "mongodb+srv://deaconmofojones:Chuletas1@merchapp-a2iob.azure.mongodb.net/test?retryWrites=true&w=majority"
