@@ -3,6 +3,7 @@ app				= express(),
 mongoose		= require("mongoose"),
 passport		= require("passport"),
 LocalStrategy	=require("passport-local"),
+passportLocalMongoose = require("passport-local-mongoose"),
 methodOverride 	= require("method-override"),
 bodyParser 		= require("body-parser"),
 Item 			= require("./models/item.js"),
@@ -31,10 +32,21 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
 
 
-//login
-app.get("/login", function(req,res){
-	res.render("login.ejs");
-})
+//tells express to use passport
+//we need these two lines anytime we use passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(require("express-session")({
+			secret:"Rusty is the best",
+			resave: false,
+			saveUninitialized: false
+		}))
+
+		passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // ===============
 // -----ITEMS-----		---------------------------------
@@ -281,6 +293,66 @@ app.get("/viewList/:storeName", isLoggedIn, function(req,res){
 		}
 	});
 });
+
+
+//============================================
+//				User Auth Routes
+//============================================
+
+//==================
+//Register Routes
+//==================
+
+//register form
+app.get("/register", function(req,res){
+	res.render("register", {user:req.user});
+})
+
+//handle user sign up
+app.post("/register", function(req,res){
+	//.register hashes the password, then the callback function returns the new user with the hashed password
+	//VERY IMPORTANT:
+	//Never save password using new User({}).
+	//Notice how the password is passed into the .register method as a second argument. This is the safe way to do it. It automatically hashes and salts the password, making it exponentially more secure then just saving the raw password to the User object in the database.
+	User.register(new User({username:req.body.username}), req.body.password, function(err, user){
+		if(err){
+			console.log(err);
+			return res.send(err);
+		}
+		//if the user is created, then log the saved user in to a session
+		passport.authenticate("local")(req, res, function(){
+			res.redirect("/");
+		})
+	})
+})
+
+//==================
+//Login Routes
+//==================
+
+//show login form
+app.get("/login", function(req,res){
+	res.render("login", {user:req.user});
+})
+
+//handle login
+app.post("/login", passport.authenticate("local",
+	{
+		successRedirect: "/",
+		failureRedirect: "/login",
+	}) , function(req,res){
+
+})
+
+//==================
+//	Logout
+//==================
+
+app.get("/logout", function(req, res){
+	req.logout();
+	res.redirect("/login");
+})
+
 
 
 //==================
