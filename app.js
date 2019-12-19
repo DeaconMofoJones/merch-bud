@@ -31,13 +31,18 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
 
 
+//login
+app.get("/login", function(req,res){
+	res.render("login.ejs");
+})
+
 // ===============
 // -----ITEMS-----		---------------------------------
 // ===============
 
 
 //index(foodco by default)
-app.get("/", function(req,res){
+app.get("/", isLoggedIn, function(req,res){
 	res.redirect("/items/store/foodco");
 });
 
@@ -53,7 +58,7 @@ app.get("/", function(req,res){
 // });
 
 //index
-app.get("/items/store/:storeName", function(req,res){
+app.get("/items/store/:storeName", isLoggedIn, function(req,res){
 	Item.find({store:req.params.storeName}, function(err,items){
 		if (err) {
 			console.log("error in get /items: "+err);
@@ -69,12 +74,12 @@ app.get("/items/store/:storeName", function(req,res){
 
 
 //new
-app.get("/items/new/:storeName", function(req,res){
+app.get("/items/new/:storeName", isLoggedIn, function(req,res){
 	res.render("newItem.ejs", {storeName:req.params.storeName});
 });
 
 //create
-app.post("/items", function(req,res){
+app.post("/items", isLoggedIn, function(req,res){
 	console.log(req.body)
 	Item.create(req.body.item, function(err, createdItem){
 		if (err) {
@@ -102,7 +107,7 @@ app.post("/items", function(req,res){
 	})
 });
 
-app.get("/items/:id", function(req,res){
+app.get("/items/:id", isLoggedIn, function(req,res){
 	Item.findById(req.params.id, function(err,foundItem){
 		if (err) {
 			console.log(err);
@@ -113,7 +118,7 @@ app.get("/items/:id", function(req,res){
 	})
 });
 
-app.get("/items/:id/edit", function(req,res){
+app.get("/items/:id/edit", isLoggedIn, function(req,res){
 	Item.findById(req.params.id, function(err,foundItem){
 		if (err) {
 			console.log(err)
@@ -123,7 +128,7 @@ app.get("/items/:id/edit", function(req,res){
 	})
 })
 
-app.put("/items/:id", function(req,res){
+app.put("/items/:id", isLoggedIn, function(req,res){
 	Item.findByIdAndUpdate(req.params.id, req.body.item, function(err,updatedItem){
 		if (err) {
 			console.log(err);
@@ -133,7 +138,7 @@ app.put("/items/:id", function(req,res){
 	})
 })
 
-app.put("/multiUpdate/:length/:noRedirect/:storeName", function(req,res){
+app.put("/multiUpdate/:length/:noRedirect/:storeName", isLoggedIn, function(req,res){
 	var postItems = [];
 	var storeName= req.params.storeName;
 	var isRedirect = req.params.noRedirect;
@@ -156,7 +161,7 @@ app.put("/multiUpdate/:length/:noRedirect/:storeName", function(req,res){
 	}
 })
 
-app.get("/changeOrder/:storeName", function(req,res){
+app.get("/changeOrder/:storeName", isLoggedIn, function(req,res){
 	Item.find({store:req.params.storeName}, function(err,items){
 		if (err) {
 			console.log("error in get /items: "+err);
@@ -168,7 +173,7 @@ app.get("/changeOrder/:storeName", function(req,res){
 });
 
 
-app.delete("/items/:id", function(req,res){
+app.delete("/items/:id", isLoggedIn, function(req,res){
 	Item.findByIdAndRemove(req.params.id, function(err, deletedItem){
 		if (err) {
 			console.log(err);
@@ -201,7 +206,7 @@ var routineItemSchema = new mongoose.Schema({
 var RoutineItem = mongoose.model("RoutineItem", routineItemSchema);
 
 
-app.get("/store/startList/:storeName", function(req,res){
+app.get("/store/startList/:storeName", isLoggedIn, function(req,res){
 	Item.find({store:req.params.storeName}, function(err,items){
 		if (err) {
 			console.log("error in get /items: "+err);
@@ -267,7 +272,7 @@ app.get("/store/startList/:storeName", function(req,res){
 // 	})
 // });
 
-app.get("/viewList/:storeName", function(req,res){
+app.get("/viewList/:storeName", isLoggedIn, function(req,res){
 	Item.find({store:req.params.storeName}, function(err,items){
 		if (err) {
 			console.log("error in get /items: "+err);
