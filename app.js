@@ -1,6 +1,8 @@
 var express 	= require("express"),
 app				= express(),
 mongoose		= require("mongoose"),
+passport		= require("passport"),
+LocalStrategy	=require("passport-local"),
 methodOverride 	= require("method-override"),
 bodyParser 		= require("body-parser"),
 Item 			= require("./models/item.js"),
