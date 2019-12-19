@@ -2,7 +2,7 @@ var express 	= require("express"),
 app				= express(),
 mongoose		= require("mongoose"),
 passport		= require("passport"),
-LocalStrategy	=require("passport-local"),
+LocalStrategy 	= require("passport-local"),
 passportLocalMongoose = require("passport-local-mongoose"),
 methodOverride 	= require("method-override"),
 bodyParser 		= require("body-parser"),
@@ -36,19 +36,20 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
 
+app.use(require("express-session")({
+	secret:"pancakes and doodlebops",
+	resave: false,
+	saveUninitialized: false
+}))
 
 //tells express to use passport
 //we need these two lines anytime we use passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(require("express-session")({
-			secret:"Rusty is the best",
-			resave: false,
-			saveUninitialized: false
-		}))
 
-		passport.use(new LocalStrategy(User.authenticate()));
+
+passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -367,6 +368,7 @@ function isLoggedIn(req, res, next){
 	if (req.isAuthenticated()) {
 		return next();
 	} else {
+		console.log("user not authenticated")
 		res.redirect("/login");	
 	}
 	
