@@ -27,6 +27,11 @@ mongoose.connect(mongoLocal, { useNewUrlParser:true }, function(err){
 		console.log("successfully connected to local mongo database")
 	}
 });
+
+//tells express to read ejs files by default.
+//This makes it to where you can leave of the '.ejs' at the end of the file
+app.set("view engine", "ejs");
+
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(methodOverride("_method"));
