@@ -36,7 +36,7 @@ app.use(methodOverride("_method"));
 // ===============
 
 
-
+//index(foodco by default)
 app.get("/", function(req,res){
 	res.redirect("/items/store/foodco");
 });
@@ -52,6 +52,7 @@ app.get("/", function(req,res){
 	
 // });
 
+//index
 app.get("/items/store/:storeName", function(req,res){
 	Item.find({store:req.params.storeName}, function(err,items){
 		if (err) {
@@ -67,11 +68,12 @@ app.get("/items/store/:storeName", function(req,res){
 
 
 
-
+//new
 app.get("/items/new/:storeName", function(req,res){
 	res.render("newItem.ejs", {storeName:req.params.storeName});
 });
 
+//create
 app.post("/items", function(req,res){
 	console.log(req.body)
 	Item.create(req.body.item, function(err, createdItem){
@@ -259,6 +261,17 @@ app.get("/viewList/:storeName", function(req,res){
 });
 
 
+//==================
+//	Check Logged In
+//==================
+function isLoggedIn(req, res, next){
+	if (req.isAuthenticated()) {
+		return next();
+	} else {
+		res.redirect("/login");	
+	}
+	
+}
 
 
 if (process.env.NODE_ENV === 'production') {
