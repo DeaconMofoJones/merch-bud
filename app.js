@@ -80,7 +80,24 @@ app.post("/items", function(req,res){
 		if (err) {
 			res.render("newItem.ejs");
 		} else {
-			res.redirect("/items/store/"+createdItem.store);
+
+			User.findOne({username:req.user.username}, function(err, foundUser){
+				if (err) {
+					console.log(err)
+				} else {
+					foundUser.items.push(createdItem);
+					foundUser.save(function(err, data){
+						if (err) {
+							console.log(err)
+						} else {
+							console.log(data)
+							res.redirect("/items/store/"+createdItem.store);
+						}
+					})
+				}
+			})
+
+			
 		}
 	})
 });
