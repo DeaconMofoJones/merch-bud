@@ -30,8 +30,15 @@
 		    <a href="/items/store/jetmart" class="item">JetMart</a>
 		  </div>
 		</div>
-		
-		
+		<% if (user) { -%>
+			<div class="ui dropdown item">
+			  <div class="text"><%= user.username %></div>
+			  <i class="dropdown icon"></i>
+			  <div class="menu">
+			    <a href="/logout" class="item">Logout</a>
+			  </div>
+			</div>
+		<% } -%>
 	</div>
 
 	<script>
