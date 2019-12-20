@@ -107,7 +107,6 @@ app.get("/items/new/:storeName", isLoggedIn, function(req,res){
 
 //create
 app.post("/items", isLoggedIn, function(req,res){
-	console.log(req.body)
 	Item.create(req.body.item, function(err, createdItem){
 		if (err) {
 			res.render("newItem.ejs");
@@ -117,12 +116,13 @@ app.post("/items", isLoggedIn, function(req,res){
 				if (err) {
 					console.log(err)
 				} else {
+
 					foundUser.items.push(createdItem);
+					console.log(foundUser.items);
 					foundUser.save(function(err, data){
 						if (err) {
 							console.log(err)
 						} else {
-							console.log(data)
 							res.redirect("/items/store/"+createdItem.store);
 						}
 					})
@@ -199,14 +199,32 @@ app.get("/changeOrder/:storeName", isLoggedIn, function(req,res){
 	
 });
 
-
+//delete
 app.delete("/items/:id", isLoggedIn, function(req,res){
+	//find item in database and remove it
 	Item.findByIdAndRemove(req.params.id, function(err, deletedItem){
 		if (err) {
 			console.log(err);
 			
 		} else {
-			res.redirect("/items/store/"+deletedItem.store);
+			//find user and remove the database item reference from user.items array
+			User.findById(req.user._id, function(err, foundUser){
+				if (err) {
+					console.log(err)
+				} else {
+					var deletedItemIndex = foundUser.items.findIndex(x => x == req.params.id);
+					foundUser.items.splice(deletedItemIndex,1);
+					foundUser.save(function(err, data){
+						if (err) {
+							console.log(err)
+						} else {
+							console.log(data)
+							res.redirect("/items/store/"+deletedItem.store);
+						}
+					})
+				}
+			})
+			
 		}
 	})
 });
