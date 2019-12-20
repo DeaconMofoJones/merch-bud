@@ -1,5 +1,6 @@
 <% include partials/header.ejs %>
 
+<% items = user.items %>
 
 <% function capitalize(string)  { %>
 
@@ -21,7 +22,7 @@
 	</div>
 </div>
     
-    
+  <%= items%>
 
 <% var types = [] %>
 

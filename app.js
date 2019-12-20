@@ -81,7 +81,16 @@ app.get("/items/store/:storeName", isLoggedIn, function(req,res){
 		if (err) {
 			console.log("error in get /items: "+err);
 		} else {
-			res.render("index.ejs", {items:items,storeName:req.params.storeName})
+			User.findById(req.user._id).populate("items").exec(function(err,user){
+				if (err) {
+					console.log(err)
+					res.send(err);
+				} else {
+					console.log(user)
+					res.render("index.ejs", {user:user,storeName:req.params.storeName})
+				}
+			})
+			
 		}
 	});
 	
