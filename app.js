@@ -400,6 +400,18 @@ function isLoggedIn(req, res, next){
 	}
 	
 }
+//==================
+//	Check Admin
+//==================
+function isAdmin(req, res, next){
+	if (req.user.username==="deaconjones") {
+		return next();
+	} else {
+		console.log("User is not admin")
+		res.redirect("/");	
+	}
+	
+}
 
 
 if (process.env.NODE_ENV === 'production') {
