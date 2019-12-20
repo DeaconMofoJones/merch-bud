@@ -102,14 +102,14 @@ app.get("/items/store/:storeName", isLoggedIn, function(req,res){
 
 //new
 app.get("/items/new/:storeName", isLoggedIn, function(req,res){
-	res.render("newItem.ejs", {storeName:req.params.storeName});
+	res.render("newItem.ejs", {storeName:req.params.storeName,user:req.user});
 });
 
 //create
 app.post("/items", isLoggedIn, function(req,res){
 	Item.create(req.body.item, function(err, createdItem){
 		if (err) {
-			res.render("newItem.ejs");
+			res.render("newItem.ejs",{user:req.user});
 		} else {
 
 			User.findOne({username:req.user.username}, function(err, foundUser){
@@ -140,7 +140,7 @@ app.get("/items/:id", isLoggedIn, function(req,res){
 			console.log(err);
 			res.send("error in get /items/:id: "+ err);
 		} else {
-			res.render("show.ejs", {item:foundItem});
+			res.render("show.ejs", {item:foundItem,user:req.user});
 		}
 	})
 });
@@ -150,7 +150,7 @@ app.get("/items/:id/edit", isLoggedIn, function(req,res){
 		if (err) {
 			console.log(err)
 		} else {
-			res.render("edit.ejs", {item:foundItem})
+			res.render("edit.ejs", {item:foundItem,user:req.user})
 		}
 	})
 })
@@ -193,7 +193,7 @@ app.get("/changeOrder/:storeName", isLoggedIn, function(req,res){
 		if (err) {
 			console.log("error in get /items: "+err);
 		} else {
-			res.render("changeOrder.ejs", {items:items,storeName:req.params.storeName})
+			res.render("changeOrder.ejs", {items:items,storeName:req.params.storeName,user:req.user})
 		}
 	});
 	
@@ -256,7 +256,7 @@ app.get("/store/startList/:storeName", isLoggedIn, function(req,res){
 		if (err) {
 			console.log("error in get /items: "+err);
 		} else {
-			res.render("startList.ejs", {items:items,storeName:req.params.storeName})
+			res.render("startList.ejs", {items:items,storeName:req.params.storeName,user:req.user})
 		}
 	});
 });
@@ -322,7 +322,7 @@ app.get("/viewList/:storeName", isLoggedIn, function(req,res){
 		if (err) {
 			console.log("error in get /items: "+err);
 		} else {
-			res.render("showList.ejs", {items:items,storeName:req.params.storeName})
+			res.render("showList.ejs", {items:items,storeName:req.params.storeName,user:req.user})
 		}
 	});
 });
