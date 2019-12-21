@@ -1,0 +1,34 @@
+<% include partials/header.ejs %>
+
+<a href="/warehouse" class="ui button gray">Back</a>
+<h1>New Item For The Warehouse</h1>
+
+<form class="ui form" method="POST" action="/items">
+	<div class="field">
+		<label>Name</label>
+		<input type="text" name="item[name]" placeholder="name of item">
+	</div>
+	<div class="field hidden">
+		<label>Image</label>
+		<input type="text" name="item[image]" placeholder="image url">
+	</div>
+	<div class="field">
+		<label>Type</label>
+			<input type="radio" name="item[type]" value="Plastic" required class="item">Plastic
+			<input type="radio" name="item[type]" value="Glass" >Glass
+			<input type="radio" name="item[type]" value="Beer" >Beer
+			<input type="radio" name="item[type]" value="Bang" >Bang
+			<input type="radio" name="item[type]" value="Water" >Water
+			<input type="radio" name="item[type]" value="Calypso" >Calypso
+			<input type="radio" name="item[type]" value="Arizona" >Arizona
+	</div>
+	<div class="field hidden">
+		<label>Index</label>
+		<input class="" type="number" name="item[index]" placeholder="index" required="true"  value="<%= 0 %>">
+	</div>
+	<button class="ui button blue fluid" type="submit">Submit</button>
+
+</form>
+
+
+<% include partials/footer.ejs %>
