@@ -7,6 +7,7 @@ passportLocalMongoose = require("passport-local-mongoose"),
 methodOverride 	= require("method-override"),
 bodyParser 		= require("body-parser"),
 Item 			= require("./models/item.js"),
+WarehouseItem   = require("./models/warehouseItem.js"),
 User 			= require("./models/user.js"),
 port			= process.env.PORT || 3000,
 mongoLocal		= "mongodb://localhost:27017/merchandiser",
@@ -100,9 +101,20 @@ app.get("/items/store/:storeName", isLoggedIn, function(req,res){
 
 
 
-//new
+//new custom item
 app.get("/items/new/:storeName", isLoggedIn, function(req,res){
 	res.render("newItem.ejs", {storeName:req.params.storeName,user:req.user});
+});
+
+//new select item from warehouse
+app.get("/items/newFromWarehouse/:storeName", isLoggedIn, function(req,res){
+	WarehouseItem.find({}, function(err,allWarehouseItems){
+		if (err) {
+			res.send(err);
+		} else {
+			res.render("selectWarehouseItem.ejs", {user:req.user,warehouseItems:allWarehouseItems, storeName:req.params.storeName})
+		}
+	})
 });
 
 //create
@@ -342,7 +354,13 @@ app.get("/viewList/:storeName", isLoggedIn, function(req,res){
 
 //index
 app.get("/warehouse/", isLoggedIn, isAdmin, function(req,res){
-	res.render("warehouse.ejs",{user:req.user});
+	WarehouseItem.find({}, function(err,allWarehouseItems){
+		if (err) {
+			res.send(err);
+		} else {
+			res.render("warehouse.ejs", {user:req.user,warehouseItems:allWarehouseItems})
+		}
+	})
 });
 
 //new
