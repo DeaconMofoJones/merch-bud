@@ -134,6 +134,7 @@ app.post("/items", isLoggedIn, function(req,res){
 	})
 });
 
+//show
 app.get("/items/:id", isLoggedIn, function(req,res){
 	Item.findById(req.params.id, function(err,foundItem){
 		if (err) {
@@ -145,6 +146,7 @@ app.get("/items/:id", isLoggedIn, function(req,res){
 	})
 });
 
+//edit
 app.get("/items/:id/edit", isLoggedIn, function(req,res){
 	Item.findById(req.params.id, function(err,foundItem){
 		if (err) {
@@ -155,6 +157,7 @@ app.get("/items/:id/edit", isLoggedIn, function(req,res){
 	})
 })
 
+//update
 app.put("/items/:id", isLoggedIn, function(req,res){
 	Item.findByIdAndUpdate(req.params.id, req.body.item, function(err,updatedItem){
 		if (err) {
@@ -165,6 +168,7 @@ app.put("/items/:id", isLoggedIn, function(req,res){
 	})
 })
 
+//multi update
 app.put("/multiUpdate/:length/:noRedirect/:storeName", isLoggedIn, function(req,res){
 	var postItems = [];
 	var storeName= req.params.storeName;
@@ -188,6 +192,7 @@ app.put("/multiUpdate/:length/:noRedirect/:storeName", isLoggedIn, function(req,
 	}
 })
 
+//edit order
 app.get("/changeOrder/:storeName", isLoggedIn, function(req,res){
 	Item.find({store:req.params.storeName}, function(err,items){
 		if (err) {
@@ -325,6 +330,81 @@ app.get("/viewList/:storeName", isLoggedIn, function(req,res){
 			res.render("showList.ejs", {items:items,storeName:req.params.storeName,user:req.user})
 		}
 	});
+});
+
+
+
+
+
+//============================================
+//				Warehouse Items
+//============================================
+
+//index
+app.get("/warehouse/", isLoggedIn, isAdmin, function(req,res){
+	res.render("warehouse.ejs",{user:req.user});
+});
+
+//new
+app.get("/warehouse/new", isLoggedIn, isAdmin, function(req,res){
+	res.render("newWarehouseItem.ejs", {user:req.user});
+});
+
+//create
+app.post("/warehouse", isLoggedIn, isAdmin, function(req,res){
+	WarehouseItem.create(req.body.item, function(err, createdItem){
+		if (err) {
+			res.send(err);
+		} else {
+			res.redirect("/warehouse");
+		}
+	})
+});
+
+//show
+app.get("/warehouse/:id", isLoggedIn, isAdmin, function(req,res){
+	WarehouseItem.findById(req.params.id, function(err,foundItem){
+		if (err) {
+			console.log(err);
+			res.send("error in get /items/:id: "+ err);
+		} else {
+			res.render("showWarehouseItem.ejs", {item:foundItem,user:req.user});
+		}
+	})
+});
+
+//edit
+app.get("/warehouse/:id/edit", isLoggedIn, isAdmin, function(req,res){
+	WarehouseItem.findById(req.params.id, function(err,foundItem){
+		if (err) {
+			res.send(err);
+		} else {
+			res.render("editWarehouseItem.ejs", {item:foundItem,user:req.user})
+		}
+	})
+})
+
+//update
+app.put("/warehouse/:id", isLoggedIn, isAdmin, function(req,res){
+	WarehouseItem.findByIdAndUpdate(req.params.id, req.body.item, function(err,updatedItem){
+		if (err) {
+			res.send(err);
+		} else {
+			res.redirect("/warehouse");
+		}
+	})
+})
+
+//delete
+app.delete("/warehouse/:id", isLoggedIn, isAdmin, function(req,res){
+	//find item in database and remove it
+	WarehouseItem.findByIdAndRemove(req.params.id, function(err, deletedItem){
+		if (err) {
+			res.send(err);
+		} else {
+			res.redirect("/warehouse");
+		}
+	})
 });
 
 
