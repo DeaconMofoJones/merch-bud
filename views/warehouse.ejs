@@ -6,7 +6,22 @@
 	<p class="ui info">Are we missing one?</p>
 	<a href="/warehouse/new" class="btn btn-primary">Add New Warehouse Item</a>
 </div>
-
+<div class="ui grid">
+	<div class="three column row">
+		<% for (var i = 0; i < warehouseItems.length; i++) { -%>
+			<div class="column">
+				<div class="ui card">
+					<div class="header">
+						<%= warehouseItems[i].name %>
+					</div>
+					<div class="meta">
+						<%= warehouseItems[i].type %>
+					</div>
+				</div>
+			</div>
+		<% } -%>
+	</div>
+</div>
 
 
 <% include partials/footer.ejs %>
