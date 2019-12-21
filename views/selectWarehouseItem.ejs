@@ -1,0 +1,28 @@
+<% include partials/header.ejs %>
+
+<div class="ui segment">
+	<h1 class="ui header">Select a product from the warehouse to add to <%= storeName %></h1>
+	<p class="ui info">Don't see your product? <a href="/warehouse/new" class="btn btn-primary">Add new product to the Warehouse</a></p>
+	
+</div>
+<div class="ui grid">
+	<div class="three column row">
+		<% for (var i = 0; i < warehouseItems.length; i++) { -%>
+			<div class="column">
+				<a href="">
+					<div class="ui card">
+						<div class="header">
+							<%= warehouseItems[i].name %>
+						</div>
+						<div class="meta">
+							<%= warehouseItems[i].type %>
+						</div>
+					</div>
+				</a>
+			</div>
+		<% } -%>
+	</div>
+</div>
+
+
+<% include partials/footer.ejs %>
