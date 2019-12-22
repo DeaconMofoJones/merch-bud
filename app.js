@@ -117,7 +117,7 @@ app.get("/items/newFromWarehouse/:storeName", isLoggedIn, function(req,res){
 	})
 });
 
-//create
+//create custom
 app.post("/items", isLoggedIn, function(req,res){
 	Item.create(req.body.item, function(err, createdItem){
 		if (err) {
@@ -144,6 +144,47 @@ app.post("/items", isLoggedIn, function(req,res){
 			
 		}
 	})
+});
+
+//create copy from warehouse item
+app.post("/copyFromWarehouse/:id/:store", isLoggedIn, function(req,res){
+	WarehouseItem.findById(req.params.id, function(err,foundItem){
+		if (err) {
+			console.log("error in finding warehouse item: "+err);
+		} else {
+			console.log(foundItem);
+			var newItem = {
+				name : foundItem.name,
+				image : foundItem.image,
+				type : foundItem.type,
+				index : foundItem.index,
+				store : req.params.store,
+				amount : foundItem.amount
+			}
+			Item.create(newItem, function(err,createdItem){
+				if (err) {
+					console.log("err");
+				} else {
+					console.log(createdItem);
+					User.findOne({username:req.user.username}, function(err, foundUser){
+						if (err) {
+							console.log(err)
+						} else {
+							foundUser.items.push(createdItem);
+							foundUser.save(function(err, data){
+								if (err) {
+									console.log(err)
+								} else {
+									res.redirect("/items/store/"+req.params.store);
+								}
+							})
+						}
+					})
+				}
+			})
+		}
+	});
+	
 });
 
 //show
