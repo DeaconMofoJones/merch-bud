@@ -9,16 +9,18 @@
 	<div class="three column row">
 		<% for (var i = 0; i < warehouseItems.length; i++) { -%>
 			<div class="column">
-				<a href="">
-					<div class="ui card">
-						<div class="header">
-							<%= warehouseItems[i].name %>
-						</div>
-						<div class="meta">
-							<%= warehouseItems[i].type %>
-						</div>
-					</div>
-				</a>
+				<form action="/copyFromWarehouse/<%=warehouseItems[i]._id%>/<%=storeName%>" method="POST">
+					<button class="ui card">
+						
+							<div class="header">
+								<%= warehouseItems[i].name %>
+							</div>
+							<div class="meta">
+								<%= warehouseItems[i].type %>
+							</div>
+						
+					</button>
+				</form>
 			</div>
 		<% } -%>
 	</div>
