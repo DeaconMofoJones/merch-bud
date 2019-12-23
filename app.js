@@ -547,7 +547,7 @@ function isAdmin(req, res, next){
 		return next();
 	} else {
 		console.log("User is not admin")
-		res.redirect("/");	
+		res.send("You do not have admin privilege <a href='/'>home</a>");	
 	}
 	
 }
