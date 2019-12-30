@@ -1,6 +1,13 @@
 <% include partials/header.ejs %>
 
-<% items = user.items %>
+<!-- filter user items with store name -->
+<% items = []; %>
+ <% for (var i = 0; i < user.items.length; i++) { 
+	 if (user.items[i].store==storeName) { 
+		items.push(user.items[i])
+	 } 
+ } -%>
+
 
 <% function capitalize(string)  { %>
 
