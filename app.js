@@ -223,10 +223,10 @@ app.put("/items/:id", isLoggedIn, function(req,res){
 })
 
 //multi update
-app.put("/multiUpdate/:length/:noRedirect/:storeName", isLoggedIn, function(req,res){
+app.put("/multiUpdate/:length/:redirect/:storeName", isLoggedIn, function(req,res){
 	var postItems = [];
 	var storeName= req.params.storeName;
-	var isRedirect = req.params.noRedirect;
+	var isRedirect = req.params.redirect;
 	for (var i = 0; i < req.params.length; i++) {
 		postItems.push(req.body[i])
 	}
@@ -241,8 +241,10 @@ app.put("/multiUpdate/:length/:noRedirect/:storeName", isLoggedIn, function(req,
 	}
 	if (isRedirect=="true") {
 		res.redirect("/viewList/"+storeName)
-	} else {
+	} else if(isRedirect=="false"){
 		res.redirect("/changeOrder/"+storeName)
+	} else if(isRedirect=="index"){
+		res.redirect("/items/store/"+storeName)
 	}
 })
 
