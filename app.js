@@ -158,6 +158,7 @@ app.post("/copyFromWarehouse/:id/:store", isLoggedIn, function(req,res){
 				image : foundItem.image,
 				type : foundItem.type,
 				index : foundItem.index,
+				listCount : foundItem.listCount,
 				store : req.params.store,
 				amount : foundItem.amount
 			}
