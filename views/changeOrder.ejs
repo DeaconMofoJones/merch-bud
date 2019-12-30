@@ -14,11 +14,7 @@
 </div>
     
 
-<div class="ui vertical menu fluid">
-	<div class="item">
-		<div class="ui button zeroAllBtn">zero all</div>
-	</div>
-</div>
+
 
 
 <!-- 
@@ -87,8 +83,8 @@
 						<!-- CHange order buttons -->
 
 						<div class="ui icon buttons">
-						  <a class="ui button changeOrder up" UID="<%=items[i]._id%>"><i class="angle up icon"></i></a>
-						  <a class="ui button changeOrder down" UID="<%=items[i]._id%>"><i class="angle down icon"></i></a>
+						  <a class="ui button changeOrder up teal" UID="<%=items[i]._id%>"><i class="angle up icon"></i></a>
+						  <a class="ui button changeOrder down teal" UID="<%=items[i]._id%>"><i class="angle down icon"></i></a>
 						</div>
 
 						
@@ -163,9 +159,12 @@
 
 		</div>
 	<% } %>
-<button class="ui button blue" type="submit">Update</button>
+
+
+<button class="ui button teal" type="submit">Update</button>
+<a href="/items/store/<%=storeName%>" class="ui button gray">cancel</a>
 </form>
-<a href="/items/store/<%=storeName%>" class="ui button blue">Home</a>
+
 
 
 
