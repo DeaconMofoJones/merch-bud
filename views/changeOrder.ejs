@@ -21,6 +21,10 @@
 </div>
 
 
+<!-- 
+	Gather the types all into an array
+	We will use this to organize the items into categories.
+ -->
 <% var types = [] %>
 
 <% for (var i = 0; i < items.length; i++) {
@@ -30,10 +34,14 @@
  	} %>
 
 
+<!-- 
+	Determine the lowest and largest indeces, so that even if there
+	is an index that is negative we will be certain to loop through it.
+ -->
 <% 	var lowestIndex=0;
 	var largestIndex=0;
- %>
 
+ %>
 <% for (var i = 0; i < items.length; i++) {
 	if (items[i].index<lowestIndex) {
 		lowestIndex=items[i].index;
@@ -55,47 +63,45 @@
 
 	 -->
 
+
+
 <form class="" method="POST" action="/multiUpdate/<%= items.length %>/false/<%= storeName %>?_method=PUT">
 
+	<!-- Create a category for each type -->
 	<% for (var k = 0; k < types.length; k++) { %>
-		<div class="ui vertical menu fluid">
+	<!-- Each item will have a non-permanent index for the user to move the items around. The user can, then choose to apply these indeces by pressing the update button -->
+	<% var listIndex=0; %>
+		<div class="ui vertical menu fluid <%=types[k]%>-list">
 			<div class="item header"><h3><%= types[k] %></h3></div>
 			<% for (var l = lowestIndex; l <= largestIndex; l++) { %>
 			<% for (var i = 0; i < items.length; i++) { %>
 				<% if (items[i].type==types[k]&&items[i].index==l) { %>
-					<div class="item menu" style="margin: auto; height: 100%; <% if (items[i].amount<=0) { %>background-color: #f5f5f5;<% } %> ">
+				
+					<div class="item menu <%=types[k]%>-list-item" list-index="<%=listIndex%>" UID="<%=items[i]._id%>" list-type="<%=types[k]%>" style="margin: auto; height: 100%; <% if (items[i].amount<=0) { %>background-color: #f5f5f5;<% } %> ">
 						<div class="item header" style="padding: 5px;display: inline-block;">
 								<%= items[i].name %>
 								
 						</div>
 						<div class="ui label <% if (items[i].amount<=0) {%> gray <% } else { %>gray <% } %>"><%= items[i].amount %></div>
 
+						<!-- CHange order buttons -->
 
-						<div class="ui teal label massive listCountDisplay <%= items[i]._id %>" UID="<%= items[i]._id %>"><%= items[i].index %></div>
-
-						<div class="ui icon buttons mini compact right floated" >
-							
-								
-								<div class="ui button plusBtn" uid="<%= items[i]._id %>"><i class="plus icon"></i></div>
-							
-							
-								
-								<div class="ui button minusBtn" uid="<%= items[i]._id %>"><i class="minus icon"></i></div>
-
-
-								<div class="ui button zeroBtn" uid="<%= items[i]._id %>">zero</div>	
-							
+						<div class="ui icon buttons">
+						  <a class="ui button changeOrder up" UID="<%=items[i]._id%>"><i class="angle up icon"></i></a>
+						  <a class="ui button changeOrder down" UID="<%=items[i]._id%>"><i class="angle down icon"></i></a>
 						</div>
 
-						<div class="ui icon buttons mini compact">
-						  <a class="ui button basic" href="/items/<%= items[i]._id %>/edit"><i class="wrench icon"></i></a>
-						</div>
+						
 					</div>
+
+<!-- ==========================================================================
+						Invisible Form
+ ==========================================================================-->
 
 					<div class="hidden">
 					<div class="field">
 						<label>Name</label>
-						<input type="text" name="<%= i %>[name]" placeholder="name of item" value="<%= items[i].name %>">
+						<input type="text" name="<%= i %>[name]" placeholder="name of item" value="<%= items[i].name %>" class="<%=items[i]._id%>">
 					</div>
 					<div class="field">
 						<label>Image</label>
@@ -130,39 +136,15 @@
 				 </div>
 					<div class="field">
 						<label>Amount</label>
-						<div class="ui icon buttons tiny">
-						<div class="ui button plusBtn">
-							<i class="plus icon"></i>	
-						</div>
-						<div class="ui button minusBtn">
-							<i class="minus icon"></i>	
-						</div>
-						</div>
 						<input type="number" name="<%= i %>[amount]" placeholder="amount" required="true" class="numInput" value="<%= items[i].amount %>">
 					</div>
-					<div class="field listCountContainer">
+					<div class="field">
 						<label>List Count</label>
-						<div class="ui icon buttons tiny">
-						<div class="ui button plusBtn">
-							<i class="plus icon"></i>	
-						</div>
-						<div class="ui button minusBtn">
-							<i class="minus icon"></i>	
-						</div>
-						</div>
-						<input class="numInput listCountInput <%= items[i]._id %>" type="number" name="<%= i %>[listCount]" placeholder="list count" required="true"  value="<%= items[i].listCount %>">
+						<input class="numInput  <%= items[i]._id %>" type="number" name="<%= i %>[listCount]" placeholder="list count" required="true"  value="<%= items[i].listCount %>">
 					</div>
 					<div class="field">
 						<label>Index</label>
-						<div class="ui icon buttons tiny">
-						<div class="ui button plusBtn">
-							<i class="plus icon"></i>	
-						</div>
-						<div class="ui button minusBtn">
-							<i class="minus icon"></i>	
-						</div>
-						</div>
-						<input class="numInput indexInput <%= items[i]._id %>" type="number" name="<%= i %>[index]" placeholder="index" required="true"  value="<%= items[i].index %>">
+						<input class="numInput indexInput <%= items[i]._id %>" type="number" name="<%= i %>[index]" placeholder="index" required="true"  value="<%= listIndex %>">
 					</div>
 					<div class="field">
 						<label>UID</label>
@@ -171,6 +153,7 @@
 					<button class="ui button blue" type="submit">Update</button>
 					<a href="/items/<%= items[i]._id %>" class="ui button red">Delete</a>
 					</div>
+					<% listIndex+=1; %>
 
 
 
@@ -192,62 +175,75 @@
 
 
 
+
+
+
 <script type="text/javascript">
-	$(".plusBtn").click(function(){
-		var UID = $(this).attr("UID")
-		var display = $(".listCountDisplay."+UID)
-		// var display2 = $(this).parent().parent().siblings(".listCountContainer").children(".listCountInput")
-		var display2 = $(".indexInput."+UID)
-		console.log(display);
-		console.log(display2);
-		var newVal = parseInt(display.html())
-		newVal+=1;
-		display.html(newVal)
-		display2.val(newVal)
+
+	$(".changeOrder.up.button").click(function(){
+		var type = $(this).parent().parent().attr("list-type");
+		var index = parseInt($(this).parent().parent().attr("list-index"));
+		var targetIndex = index -1;
+		//check to see if there is an item in the target index that exists.
+		if($("."+type+"-list-item").eq(targetIndex).length>0&&targetIndex>=0){
+			console.log("there is an item above this one.")
+			//this is the clicked item that will be moved
+			var item1 = $("."+type+"-list-item").eq(index);
+			//this is the other item that will be moved
+			var item2 = $("."+type+"-list-item").eq(targetIndex);
+
+			$(item2).before( $(item1) )
+
+			reOrderIndeces(item1,item2);
+		} else {
+			console.log("there is not an item above this one.")
+		}
 	})
-	$(".listCountDisplay").click(function(){
-		var UID = $(this).attr("UID")
-		var newVal = parseInt($(this).html());
-		var display2 = $(".indexInput."+UID)
-		newVal+=1;
-		$(this).html(newVal);
-		display2.val(newVal);
+	$(".changeOrder.down.button").click(function(){
+		var type = $(this).parent().parent().attr("list-type");
+		var index = parseInt($(this).parent().parent().attr("list-index"));
+		var targetIndex = index +1;
+		//check to see if there is an item in the target index that exists.
+		if($("."+type+"-list-item").eq(targetIndex).length>0&&targetIndex>=0){
+			console.log("there is an item below this one.")
+			//this is the clicked item that will be moved
+			var item1 = $("."+type+"-list-item").eq(index);
+			//this is the other item that will be moved
+			var item2 = $("."+type+"-list-item").eq(targetIndex);
+
+			$(item2).after( $(item1) )
+
+			reOrderIndeces(item1,item2);
+		} else {
+			console.log("there is not an item below this one.")
+		}
 	})
-	$(".minusBtn").click(function(){
-		var UID = $(this).attr("UID")
-		var display = $(".listCountDisplay."+UID)
-		// var display2 = $(this).parent().parent().siblings(".listCountContainer").children(".listCountInput")
-		var display2 = $(".indexInput."+UID)
-		console.log(display);
-		console.log(display2);
-		var newVal = parseInt(display.html())
-		newVal-=1;
-		display.html(newVal)
-		display2.val(newVal)
-	})
-	$(".zeroBtn").click(function(){
-		var UID = $(this).attr("UID")
-		var display = $(".listCountDisplay."+UID)
-		// var display2 = $(this).parent().parent().siblings(".listCountContainer").children(".listCountInput")
-		var display2 = $(".indexInput."+UID)
-		console.log(display);
-		console.log(display2);
-		var newVal = parseInt(display.html())
-		newVal=0;
-		display.html(newVal)
-		display2.val(newVal)
-	})
-	$(".zeroAllBtn").click(function(){
-		var display = $(".listCountDisplay")
-		var display2 = $(".indexInput")
-		newVal=0;
-		display.html(newVal)
-		display2.val(newVal)
-	})
+
+	function reOrderIndeces(item1,item2) {
+		
+		console.log($(item1))
+			//grab indeces from list-index attribute
+			var index1 = $(item1).attr("list-index");
+			var index2 = $(item2).attr("list-index");
+			
+			//grab ids of database items
+			var id1 = $(item1).attr("UID");
+			var id2 = $(item2).attr("UID");
+
+			//swap list-index values
+			$(item1).attr("list-index",index2);
+			$(item2).attr("list-index",index1);
+
+			//update the update form values to match the user selected order
+			console.log("database item1 index value before: "+$("input.indexInput."+id1).val())
+			console.log("database item2 index value before: "+$("input.indexInput."+id2).val())
+			$("input.indexInput."+id1).val( $(item1).attr("list-index") )
+			$("input.indexInput."+id2).val( $(item2).attr("list-index") )
+			console.log("database item1 index value after: "+$("input.indexInput."+id1).val())
+			console.log("database item2 index value after: "+$("input.indexInput."+id2).val())
+	}
+
 </script>
-
-
-
 
 
 <% include partials/footer.ejs %>
