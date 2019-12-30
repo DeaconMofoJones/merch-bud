@@ -1,0 +1,18 @@
+<% include partials/header.ejs %>
+
+<a href="/warehouse">back</a>
+
+<p>name: <%=item.name%></p>
+<p>type: <%=item.type%></p>
+<p>amount: <%=item.amount%></p>
+<p>list count: <%=item.listCount%></p>
+<p>list index: <%=item.index%></p>
+<p>image: <%=item.image%></p>
+<p>item id: <%=item._id%></p>
+
+<a href="/warehouse/<%=item._id%>/edit" class="ui button orange">edit</a>
+<form class="ui form" method="POST" action="/warehouse/<%= item._id %>?_method=DELETE">
+	<button class="ui button red">DELETE</button>
+</form>
+
+<% include partials/footer.ejs %>
