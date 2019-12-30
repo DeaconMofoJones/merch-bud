@@ -6,8 +6,11 @@
 	<p class="ui info">Are we missing one?</p>
 	<a href="/warehouse/new" class="btn btn-primary">Add New Warehouse Item</a>
 </div>
+
+<!-- create a grid for warehouse items -->
 <div class="ui grid">
 	<div class="three column row">
+		<!-- create a column for each warehouse item -->
 		<% for (var i = 0; i < warehouseItems.length; i++) { -%>
 			<div class="column">
 				<div class="ui card">
