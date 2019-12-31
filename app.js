@@ -256,7 +256,7 @@ app.get("/changeOrder/:storeName", isLoggedIn, function(req,res){
 			res.send(err);
 		} else {
 			console.log(user)
-			res.render("index.ejs", {user:user,storeName:req.params.storeName})
+			res.render("changeOrder.ejs", {user:user,storeName:req.params.storeName})
 		}
 	})
 	
