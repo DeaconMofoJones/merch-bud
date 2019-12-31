@@ -1,5 +1,20 @@
 <% include partials/header.ejs %>
 
+<!-- alphabet -->
+<% var alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"] %>
+
+<!-- 
+	Gather the types all into an array
+	We will use this to organize the items into categories.
+ -->
+<% var types = [] %>
+
+<% for (var i = 0; i < warehouseItems.length; i++) {
+	 	if(types.indexOf(warehouseItems[i].type)==-1) {
+		 	types.push(warehouseItems[i].type);
+	 	}
+ 	} %>
+
 <div class="ui segment">
 	<h1 class="ui header">The Warehouse</h1>
 	<p class="ui info">These are all the products we distribute.</p>
@@ -7,25 +22,40 @@
 	<a href="/warehouse/new" class="btn btn-primary">Add New Warehouse Item</a>
 </div>
 
-<!-- create a grid for warehouse items -->
-<div class="ui grid">
-	<div class="three column row">
-		<!-- create a column for each warehouse item -->
-		<% for (var i = 0; i < warehouseItems.length; i++) { -%>
-			<div class="column">
-				<div class="ui card">
-					<div class="header">
-						<%= warehouseItems[i].name %>
-					</div>
-					<div class="meta">
-						<%= warehouseItems[i].type %>
-						<a href="/warehouse/<%=warehouseItems[i]._id%>"><i class="wrench icon"></i></a>
-					</div>
-				</div>
+
+	<!-- Create a row for each type and populate-->
+	<% for (var k = 0; k < types.length; k++) { -%>
+		<div class="ui segment">
+			<h1 class="ui header"><%= types[k] %></h1>
+		</div>
+
+		<!-- create a grid for warehouse items -->
+		<div class="ui grid">
+			<div class="three column row">
+				<!-- loop through alphabet -->
+				<% for (var a = 0; a < alphabet.length; a++) { -%>
+					<!-- loop through every item -->
+					<% for (var i = 0; i < warehouseItems.length; i++) { -%>
+						<!-- if item belongs in current row and is next in alphabetical order, then add it. -->
+						<% if (warehouseItems[i].type==types[k]&&warehouseItems[i].name[0].toLowerCase()==alphabet[a]) { -%>
+							<div class="column">
+								<div class="ui card">
+									<div class="header">
+										<%= warehouseItems[i].name %>
+									</div>
+									<div class="meta">
+										<%= warehouseItems[i].type %>
+										<a href="/warehouse/<%=warehouseItems[i]._id%>"><i class="wrench icon"></i></a>
+									</div>
+								</div>
+							</div>
+						<% } -%>
+					<% } -%>
+				<% } -%>
 			</div>
-		<% } -%>
-	</div>
-</div>
+		</div>
+	<% } -%>
+
 
 
 <% include partials/footer.ejs %>
