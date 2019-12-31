@@ -1,0 +1,82 @@
+<% include partials/header.ejs %>
+
+<form class="ui form" method="POST" action="/warehouse/<%= item._id %>?_method=PUT">
+	<div class="field">
+		<label>Name</label>
+		<input type="text" name="item[name]" placeholder="name of item" value="<%= item.name %>">
+	</div>
+	<div class="field">
+		<label>Image</label>
+		<input type="text" name="item[image]" placeholder="image url" value="<%= item.image %>">
+	</div>
+	<div class="field">
+		<label>Type</label>
+		<select class="ui fluid dropdown" name="item[type]" required="true">
+			<option value=""> </option>
+			<option value="Plastic" <% if (item.type=="Plastic") { %> selected="true" <% } %>>Plastic</option>
+			<option value="Glass" <% if (item.type=="Glass") { %> selected="true" <% } %>>Glass</option>
+			<option value="Beer" <% if (item.type=="Beer") { %> selected="true" <% } %>>Beer</option>
+			<option value="Bang" <% if (item.type=="Bang") { %> selected="true" <% } %>>Bang</option>
+			<option value="Water" <% if (item.type=="Water") { %> selected="true" <% } %>>Water</option>
+			<option value="Calypso" <% if (item.type=="Calypso") { %> selected="true" <% } %>>Calypso</option>
+			<option value="Arizona" <% if (item.type=="Arizona") { %> selected="true" <% } %>>Arizona</option>
+		</select>
+<!-- 		<input type="text" name="item[type]" placeholder="type of item" value="<%= item.type %>">
+ --></div>
+	<div class="field">
+		<label>Amount</label>
+		<div class="ui icon buttons tiny">
+		<div class="ui button plusBtn">
+			<i class="plus icon"></i>	
+		</div>
+		<div class="ui button minusBtn">
+			<i class="minus icon"></i>	
+		</div>
+		</div>
+		<input type="number" name="item[amount]" placeholder="amount" required="true" class="numInput" value="<%= item.amount %>">
+	</div>
+	<div class="field">
+		<label>List Count</label>
+		<div class="ui icon buttons tiny">
+		<div class="ui button plusBtn">
+			<i class="plus icon"></i>	
+		</div>
+		<div class="ui button minusBtn">
+			<i class="minus icon"></i>	
+		</div>
+		</div>
+		<input class="numInput" type="number" name="item[listCount]" placeholder="list count" required="true"  value="<%= item.listCount %>">
+	</div>
+	<div class="field">
+		<label>Index</label>
+		<div class="ui icon buttons tiny">
+		<div class="ui button plusBtn">
+			<i class="plus icon"></i>	
+		</div>
+		<div class="ui button minusBtn">
+			<i class="minus icon"></i>	
+		</div>
+		</div>
+		<input class="numInput" type="number" name="item[index]" placeholder="index" required="true"  value="<%= item.index %>">
+	</div>
+	<button class="ui button blue" type="submit">Update</button>
+	<a href="/wareouse" class="ui button gray">Cancel</a>
+</form>
+
+
+<script type="text/javascript">
+	$(".plusBtn").click(function(){
+		var numInput = $(this).parent().siblings("input")
+		var newVal = parseInt(numInput.val())
+		newVal+=1;
+		numInput.val(newVal)
+	})
+	$(".minusBtn").click(function(){
+		var numInput = $(this).parent().siblings("input")
+		var newVal = parseInt(numInput.val())
+		newVal-=1;
+		numInput.val(newVal)
+	})
+</script>
+
+<% include partials/footer.ejs %>
