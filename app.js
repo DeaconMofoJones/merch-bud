@@ -250,13 +250,15 @@ app.put("/multiUpdate/:length/:redirect/:storeName", isLoggedIn, function(req,re
 
 //edit order
 app.get("/changeOrder/:storeName", isLoggedIn, function(req,res){
-	Item.find({store:req.params.storeName}, function(err,items){
+	User.findById(req.user._id).populate("items").exec(function(err,user){
 		if (err) {
-			console.log("error in get /items: "+err);
+			console.log(err)
+			res.send(err);
 		} else {
-			res.render("changeOrder.ejs", {items:items,storeName:req.params.storeName,user:req.user})
+			console.log(user)
+			res.render("index.ejs", {user:user,storeName:req.params.storeName})
 		}
-	});
+	})
 	
 });
 
