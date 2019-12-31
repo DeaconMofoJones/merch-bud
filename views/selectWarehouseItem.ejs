@@ -1,32 +1,61 @@
 <% include partials/header.ejs %>
 
+<!-- alphabet -->
+<% var alphabet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"] %>
+
+<!-- 
+	Gather the types all into an array
+	We will use this to organize the items into categories.
+ -->
+<% var types = [] %>
+
+<% for (var i = 0; i < warehouseItems.length; i++) {
+	 	if(types.indexOf(warehouseItems[i].type)==-1) {
+		 	types.push(warehouseItems[i].type);
+	 	}
+ 	} %>
+
 <a href="/items/store/<%=storeName%>" class="ui button gray">Back</a>
 
 <div class="ui segment">
 	<h1 class="ui header">Select a product from the warehouse to add to <%= storeName %></h1>
 	<p class="ui info">Don't see your product? <a href="/warehouse/new" class="btn btn-primary">Add new product to the Warehouse</a></p>
-	
 </div>
-<div class="ui grid">
-	<div class="three column row">
-		<% for (var i = 0; i < warehouseItems.length; i++) { -%>
-			<div class="column">
-				<form action="/copyFromWarehouse/<%=warehouseItems[i]._id%>/<%=storeName%>" method="POST">
-					<button class="ui card">
-						
-							<div class="header">
-								<%= warehouseItems[i].name %>
-							</div>
-							<div class="meta">
-								<%= warehouseItems[i].type %>
-							</div>
-						
-					</button>
-				</form>
-			</div>
-		<% } -%>
+
+<!-- Create a row for each type and populate-->
+<% for (var k = 0; k < types.length; k++) { -%>
+	<div class="ui segment">
+		<h1 class="ui header"><%= types[k] %></h1>
 	</div>
-</div>
+	
+	<div class="ui grid">
+		<div class="three column row">
+			<!-- loop through alphabet -->
+			<% for (var a = 0; a < alphabet.length; a++) { -%>
+				<!-- loop through every item -->
+				<% for (var i = 0; i < warehouseItems.length; i++) { -%>
+					<!-- if item belongs in current row and is next in alphabetical order, then add it. -->
+					<% if (warehouseItems[i].type==types[k]&&warehouseItems[i].name[0].toLowerCase()==alphabet[a]) { -%>
+						<div class="column">
+							<form action="/copyFromWarehouse/<%=warehouseItems[i]._id%>/<%=storeName%>" method="POST">
+								<button class="ui card">
+									
+										<div class="header">
+											<%= warehouseItems[i].name %>
+										</div>
+										<div class="meta">
+											<%= warehouseItems[i].type %>
+										</div>
+									
+								</button>
+							</form>
+						</div>
+					<% } -%>
+				<% } -%>
+			<% } -%>
+		</div>
+	</div>
+<% } -%>
 
 
 <% include partials/footer.ejs %>
