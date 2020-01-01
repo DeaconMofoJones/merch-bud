@@ -30,19 +30,16 @@
 
 
 <% for (var k = 0; k < types.length; k++) { %>
-	<div class="ui vertical menu fluid">
+	<div class="ui vertical secondary menu fluid showList">
 			<div class="item header"><h3><%= types[k] %></h3></div>
 			<% for (var i = 0; i < items.length; i++) { %>
 				<% if (items[i].type==types[k] && items[i].listCount>0) { %>
-					<div class="item" style="margin: auto; height: 100%; <% if (items[i].amount<=0) { %>background-color: #f5f5f5;<% } %> ">
-						<div class="item" style="padding: 5px;display: inline-block;">
-								<%= items[i].name %>
+					<div class="item" style="margin: auto; height: 100%; padding:3px;">
+
+						<div class="" style="padding: 2px 20px;display: inline-block;">
+						<p class="listCountDisplay <%= items[i]._id %>" style="margin: 0;" UID="<%= items[i]._id %>"><%= items[i].listCount %> <%= items[i].name %></p>
+
 						</div>
-
-						<div class="ui label <% if (items[i].amount<=0) {%> gray <% } else { %>gray <% } %>"><%= items[i].amount %></div>
-						<div class="ui <%if (items[i].listCount==0) { %> gray  <% } else { %> green <% } %> label massive listCountDisplay <%= items[i]._id %>" UID="<%= items[i]._id %>"><%= items[i].listCount %></div>
-
-						
 					</div>
 				<% } %>
 			<% } %>
@@ -51,7 +48,12 @@
 
 
 
-
+<script type="text/javascript">
+	$(".listCountDisplay").click(function(){
+		$(this).toggleClass("green");
+		$(this).toggleClass("line-through");
+	})
+</script>
 
 
 

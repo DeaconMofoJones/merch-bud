@@ -95,3 +95,14 @@ div.carousel {
 	margin-bottom: 200px;
 	height: 100px;
 }
+
+.line-through {
+	text-decoration: line-through;
+}
+
+.showList.menu .item:nth-child(even) {
+	background: #f7f7f7;
+}
+.showList.menu .item:nth-child(odd) {
+	background: #fffff2;
+}
