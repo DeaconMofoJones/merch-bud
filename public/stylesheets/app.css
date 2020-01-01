@@ -106,3 +106,8 @@ div.carousel {
 .showList.menu .item:nth-child(odd) {
 	background: #fffff2;
 }
+
+div.showList.menu.secondary div.header {
+	margin: 0;
+	padding: 0 20px;
+}

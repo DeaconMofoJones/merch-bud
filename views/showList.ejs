@@ -14,6 +14,9 @@
 
 <% } %>
 
+<div class="container">
+	
+
 
 <div class="ui segment">
 	<h1 class="ui header"><%= capitalize(storeName)%> List</h1>
@@ -34,10 +37,10 @@
 			<div class="item header"><h3><%= types[k] %></h3></div>
 			<% for (var i = 0; i < items.length; i++) { %>
 				<% if (items[i].type==types[k] && items[i].listCount>0) { %>
-					<div class="item" style="margin: auto; height: 100%; padding:3px;">
+					<div class="item" style="margin: auto; height: 100%; padding:3px 0;">
 
-						<div class="" style="padding: 2px 20px;display: inline-block;">
-						<p class="listCountDisplay <%= items[i]._id %>" style="margin: 0;" UID="<%= items[i]._id %>"><%= items[i].listCount %> <%= items[i].name %></p>
+						<div class="" style="padding: 2px 20px;">
+						<p class="listCountDisplay <%= items[i]._id %>" style="margin: 0; width: 100%;" UID="<%= items[i]._id %>"><%= items[i].listCount %> <%= items[i].name %></p>
 
 						</div>
 					</div>
@@ -45,12 +48,14 @@
 			<% } %>
 		</div>
 <% } %>
+<div class="spacer" style="height: 40vh;">
+	
+</div>
 
-
+</div>
 
 <script type="text/javascript">
 	$(".listCountDisplay").click(function(){
-		$(this).toggleClass("green");
 		$(this).toggleClass("line-through");
 	})
 </script>
