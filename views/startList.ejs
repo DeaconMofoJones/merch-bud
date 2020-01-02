@@ -74,7 +74,7 @@
 				<% if (items[i].type==types[k]&&items[i].index==l) { %>
 					<div class="item menu" style="margin: auto; height: 100%; <% if (items[i].amount<=0) { %>background-color: #f5f5f5;<% } %> ">
 						<div class="item header" style="padding: 5px;display: inline-block;">
-								<%= items[i].name %>
+								<p><%= items[i].name %></p>
 								
 						</div>
 						<div class="ui label <% if (items[i].amount<=0) {%> gray <% } else { %>gray <% } %>"><%= items[i].amount %></div>
