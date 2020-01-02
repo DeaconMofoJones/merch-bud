@@ -96,9 +96,14 @@ div.carousel {
 }
 
 #finishListButton {
-	
 	height: 100px;
 }
+
+
+.ui.sticky.fixed + div {
+	margin-top: 150px;
+}
+
 
 .line-through {
 	text-decoration: line-through;

@@ -66,6 +66,8 @@
 
 <form class="" method="POST" action="/multiUpdate/<%= items.length %>/true/<%= storeName %>?_method=PUT">
 
+<button class="ui fixed sticky button blue fluid" type="submit" id="finishListButton">Finish</button>
+
 	<% for (var k = 0; k < types.length; k++) { %>
 		<div class="ui vertical menu fluid">
 			<div class="item header"><h3><%= types[k] %></h3></div>
@@ -192,14 +194,17 @@
 	<div class="spacer">
 		
 	</div>
-<button class="ui fixed bottom sticky button blue fluid" type="submit" id="finishListButton">Finish</button>
+
 </form>
 
 
 
 
 
-
+<script type="text/javascript">
+	$(".ui.sticky").sticky();
+	$(".ui.sticky").css("margin-top","10px");
+</script>
 
 
 <script type="text/javascript">
