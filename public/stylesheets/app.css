@@ -110,7 +110,7 @@ a.button.wrenchButton.basic.ui {
 }
 
 .showList.container p, .showList.container h3{
-	font-size: 2.5em;
+	font-size: 1.5em;
 }
 
 .showList.menu .item:nth-child(even) {
