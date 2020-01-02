@@ -109,9 +109,8 @@ a.button.wrenchButton.basic.ui {
 	text-decoration: line-through;
 }
 
-.showList.container {
-	width: 300px;
-	margin: auto;
+.showList.container p, .showList.container h3{
+	font-size: 2.5em;
 }
 
 .showList.menu .item:nth-child(even) {
