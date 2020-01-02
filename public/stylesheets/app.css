@@ -109,6 +109,11 @@ a.button.wrenchButton.basic.ui {
 	text-decoration: line-through;
 }
 
+.showList.container {
+	width: 300px;
+	margin: auto;
+}
+
 .showList.menu .item:nth-child(even) {
 	background: #f7f7f7;
 }
