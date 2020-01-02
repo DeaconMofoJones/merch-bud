@@ -77,12 +77,8 @@
 								<h4><%= items[i].name %></h4>
 								
 						</div>
-						<div class="ui label <% if (items[i].amount<=0) {%> gray <% } else { %>gray <% } %>"><%= items[i].amount %></div>
 
-
-						<div class="ui green label massive listCountDisplay <%= items[i]._id %>" UID="<%= items[i]._id %>"><%= items[i].listCount %></div>
-
-						<div class="ui icon buttons mini compact right floated" >
+						<div class="ui icon buttons mini compact left floated" >
 							
 								
 								<div class="ui button plusBtn" uid="<%= items[i]._id %>"><i class="plus icon">5</i></div>
@@ -95,6 +91,10 @@
 								<div class="ui button zeroBtn" uid="<%= items[i]._id %>">zero</div>	
 							
 						</div>
+
+						<div class="ui green label massive listCountDisplay <%= items[i]._id %>" UID="<%= items[i]._id %>"><%= items[i].listCount %></div>
+
+						
 
 						<div class="ui icon buttons mini compact">
 						  <a class="ui button basic" href="/items/<%= items[i]._id %>/edit"><i class="wrench icon"></i></a>
@@ -197,7 +197,9 @@
 
 
 
-
+<script type="text/javascript">
+	$(".label.listCountDisplay").css("float", "left");
+</script>
 
 
 
