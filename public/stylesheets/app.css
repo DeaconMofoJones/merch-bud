@@ -46,6 +46,11 @@ div.carousel {
 .buttons.mini {
 	width: 85px;
 }
+a.button.wrenchButton.basic.ui {
+	margin: auto;
+	padding: 10px;
+}
+
 
 .invisiform input, .hidden {
 	display: none;
