@@ -87,12 +87,16 @@ div.carousel {
 	position: relative;
 }
 
+.spacer {
+	height: 40vh;
+}
+
 .ui.card {
 	height: 100%;
 }
 
 #finishListButton {
-	margin-bottom: 200px;
+	
 	height: 100px;
 }
 
