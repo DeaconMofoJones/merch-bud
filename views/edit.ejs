@@ -1,5 +1,7 @@
 <% include partials/header.ejs %>
 
+<a href="/items/store/<%= items[0].store %>" class="ui button gray">Back</a>
+
 <form class="ui form" method="POST" action="/items/<%= item._id %>?_method=PUT">
 	<div class="field">
 		<label>Name</label>
@@ -39,10 +41,10 @@
 	<div class="field">
 		<label>Amount</label>
 		<div class="ui icon buttons tiny">
-		<div class="ui button plusBtn">
+		<div class="ui button plusBtn noLoading">
 			<i class="plus icon"></i>	
 		</div>
-		<div class="ui button minusBtn">
+		<div class="ui button minusBtn noLoading">
 			<i class="minus icon"></i>	
 		</div>
 		</div>
@@ -51,10 +53,10 @@
 	<div class="field">
 		<label>List Count</label>
 		<div class="ui icon buttons tiny">
-		<div class="ui button plusBtn">
+		<div class="ui button plusBtn noLoading">
 			<i class="plus icon"></i>	
 		</div>
-		<div class="ui button minusBtn">
+		<div class="ui button minusBtn noLoading">
 			<i class="minus icon"></i>	
 		</div>
 		</div>
@@ -63,10 +65,10 @@
 	<div class="field">
 		<label>Index</label>
 		<div class="ui icon buttons tiny">
-		<div class="ui button plusBtn">
+		<div class="ui button plusBtn noLoading">
 			<i class="plus icon"></i>	
 		</div>
-		<div class="ui button minusBtn">
+		<div class="ui button minusBtn noLoading">
 			<i class="minus icon"></i>	
 		</div>
 		</div>
