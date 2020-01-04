@@ -1,0 +1,217 @@
+<% include partials/header.ejs %>
+
+<!-- back button -->
+<a href="/items/store/<%= storeName %>" class="ui button gray">Back</a>
+
+<!-- filter user items with store name -->
+<% items = []; %>
+ <% for (var i = 0; i < user.items.length; i++) { 
+	 if (user.items[i].store==storeName) { 
+		items.push(user.items[i])
+	 } 
+ } -%>
+
+<!-- capitalize the first letter in store name -->
+<% function capitalize(string)  { %>
+
+    <% return string.charAt(0).toUpperCase() + string.slice(1); %>
+
+<% } %>
+
+<!-- Display store name at top as a header -->
+<div class="ui segment">
+	<h1 class="ui header"><%= capitalize(storeName) %></h1>
+	<!-- new item button -->
+	<a href="/items/newFromWarehouse/<%= storeName %>" class="ui button blue">New Item</a>
+</div>
+
+<!-- Gather all types of items into an array so that we may use this later to sort the items into categories -->
+<% var types = [] %>
+
+<% for (var i = 0; i < items.length; i++) {
+	 	if(types.indexOf(items[i].type)==-1) {
+		 	types.push(items[i].type);
+	 	}
+ 	} %>
+
+<!-- Gather the index range of the items so that we are certain to loop through every item, even the ones that might have negative index values -->
+<% 	var lowestIndex=0;
+	var largestIndex=0;
+ %>
+<% for (var i = 0; i < items.length; i++) {
+	if (items[i].index<lowestIndex) {
+		lowestIndex=items[i].index;
+	}
+	if (items[i].index>largestIndex) {
+		largestIndex=items[i].index;
+	}
+} %>
+
+
+<form class="" method="POST" action="/multiUpdate/<%= items.length %>/index/<%= storeName %>?_method=PUT">
+
+	<% for (var k = 0; k < types.length; k++) { %>
+	<div class="ui segment"><h3><%= types[k] %></h3>
+		<div class="ui four column grid stackable">
+			
+			<% for (var l = lowestIndex; l <= largestIndex; l++) { %>
+			<% for (var i = 0; i < items.length; i++) { %>
+				<% if (items[i].type==types[k]&&items[i].index==l) { %>
+					<div class="column">
+						<div class="ui card fluid">
+							<div class="content">
+								<div class="header">
+									<%=items[i].name%>
+								</div>
+								<div class="meta">
+									<%=items[i].type%>
+								</div>
+								<div class="description">
+									Units in backstock:
+									<div class="ui <%if(items[i].amount<=0){%>red<%}else{%>blue<%}%> horizontal label <%=i%>amountLabel">
+										<%=items[i].amount%>
+									</div>
+								</div>
+							</div>
+							<div class="extra content">
+								<div class="ui buttons">
+									<div index="<%=i%>" class="ui button noLoading addFiveButton">
+										+5
+									</div>
+									<div index="<%=i%>" class="ui button noLoading addOneButton">
+										+1
+									</div>
+									<div index="<%=i%>" class="ui button noLoading subtractOneButton">
+										-1
+									</div>
+									<div index="<%=i%>" class="ui button noLoading setToZeroButton">
+										0
+									</div>
+								</div>
+							</div>
+						</div> 
+						
+					</div>
+
+					<div class="hidden">
+
+						<label>Name</label>
+						<input type="text" name="<%= i %>[name]" placeholder="name of item" value="<%= items[i].name %>">
+
+						<label>Image</label>
+						<input type="text" name="<%= i %>[image]" placeholder="image url" value="<%= items[i].image %>">
+
+						<label>Store</label>
+						<select class="ui fluid dropdown" name="<%= i %>[store]" required="true">
+							<option value=""> </option>
+							<option value="foodco" <% if (items[i].store=="foodco") { %> selected="true" <% } %>>FoodCo</option>
+							<option value="walmart" <% if (items[i].store=="walmart") { %> selected="true" <% } %>>WalMart</option>
+							<option value="costless" <% if (items[i].store=="costless") { %> selected="true" <% } %>>CostLess</option>
+							<option value="bestbuy" <% if (items[i].store=="bestbuy") { %> selected="true" <% } %>>BestBuy</option>
+							<option value="savemart" <% if (items[i].store=="savemart") { %> selected="true" <% } %>>SaveMart</option>
+							<option value="exchange" <% if (items[i].store=="exhchange") { %> selected="true" <% } %>>NavyExchange</option>
+							<option value="jetmart" <% if (items[i].store=="jetmart") { %> selected="true" <% } %>>JetMart</option>
+						</select>
+
+						<label>Type</label>
+						<select class="ui fluid dropdown" name="<%= i %>[type]" required="true">
+							<option value=""> </option>
+							<option value="Plastic" <% if (items[i].type=="Plastic") { %> selected="true" <% } %>>Plastic</option>
+							<option value="Glass" <% if (items[i].type=="Glass") { %> selected="true" <% } %>>Glass</option>
+							<option value="Beer" <% if (items[i].type=="Beer") { %> selected="true" <% } %>>Beer</option>
+							<option value="Bang" <% if (items[i].type=="Bang") { %> selected="true" <% } %>>Bang</option>
+							<option value="Water" <% if (items[i].type=="Water") { %> selected="true" <% } %>>Water</option>
+							<option value="Calypso" <% if (items[i].type=="Calypso") { %> selected="true" <% } %>>Calypso</option>
+							<option value="Arizona" <% if (items[i].type=="Arizona") { %> selected="true" <% } %>>Arizona</option>
+						</select>
+
+						<label>Amount</label>
+						<input type="number" name="<%= i %>[amount]" placeholder="amount" required="true" class="<%=i%>amountInput" value="<%= items[i].amount %>">
+
+						<label>List Count</label>
+						<input class="numInput listCountInput <%= items[i]._id %>" type="number" name="<%= i %>[listCount]" placeholder="list count" required="true"  value="<%= items[i].listCount %>">
+
+						<label>Index</label>
+						<input class="numInput" type="number" name="<%= i %>[index]" placeholder="index" required="true"  value="<%= items[i].index %>">
+
+						<label>UID</label>
+						<input class="" type="text" name="<%= i %>[UID]" placeholder="UID" required="true"  value="<%= items[i]._id %>">
+
+					</div>
+
+
+
+				<% } %>
+			<% } %>
+			<% } %>
+
+		</div>
+	</div>
+	<% } %>
+	<div class="spacer">
+		<button class="ui button blue fluid" type="submit" id="finishListButton">Finish</button>
+	</div>
+
+</form>
+
+
+<script type="text/javascript">
+	//=====================
+	//quick change buttons
+	//=====================
+
+	//add five button
+	$(".addFiveButton").click(function(){
+		var index = $(this).attr("index");
+		var oldValue = $("."+index+"amountInput").val();
+		var newValue = parseInt(oldValue) + 5;
+		$("."+index+"amountInput").val(newValue);
+		$("."+index+"amountLabel").html(newValue);
+		updateLabelColor(index);
+	})
+
+	//add one button
+	$(".addOneButton").click(function(){
+		var index = $(this).attr("index");
+		var oldValue = $("."+index+"amountInput").val();
+		var newValue = parseInt(oldValue) + 1;
+		$("."+index+"amountInput").val(newValue);
+		$("."+index+"amountLabel").html(newValue);
+		updateLabelColor(index);
+	})
+
+	//subtract one button
+	$(".subtractOneButton").click(function(){
+		var index = $(this).attr("index");
+		var oldValue = $("."+index+"amountInput").val();
+		var newValue = parseInt(oldValue) - 1;
+		$("."+index+"amountInput").val(newValue);
+		$("."+index+"amountLabel").html(newValue);
+		updateLabelColor(index);
+	})
+
+	//set to zero button
+	$(".setToZeroButton").click(function(){
+		var index = $(this).attr("index");
+		var oldValue = $("."+index+"amountInput").val();
+		var newValue = 0;
+		$("."+index+"amountInput").val(newValue);
+		$("."+index+"amountLabel").html(newValue);
+		updateLabelColor(index);
+	})
+
+	//check item amount and update color accordingly
+	function updateLabelColor(index){
+		var amount = $("."+index+"amountInput").val();
+		if (amount>0) {
+			$("."+index+"amountLabel").removeClass("red");
+			$("."+index+"amountLabel").addClass("blue");	
+		} else {
+			$("."+index+"amountLabel").removeClass("blue");
+			$("."+index+"amountLabel").addClass("red");	
+		}
+	}
+</script>
+
+
+<% include partials/footer.ejs %>
