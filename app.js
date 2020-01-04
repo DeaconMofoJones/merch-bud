@@ -211,6 +211,32 @@ app.get("/items/:id/edit", isLoggedIn, function(req,res){
 	})
 })
 
+//edit order
+app.get("/changeOrder/:storeName", isLoggedIn, function(req,res){
+	User.findById(req.user._id).populate("items").exec(function(err,user){
+		if (err) {
+			console.log(err)
+			res.send(err);
+		} else {
+			console.log(user)
+			res.render("changeOrder.ejs", {user:user,storeName:req.params.storeName})
+		}
+	})
+	
+});
+
+//edit backstock amount of all store items
+app.get("/takeInventory/:storeName", isLoggedIn, function(req,res){
+	User.findById(req.user._id).populate("items").exec(function(err,user){
+		if (err) {
+			console.log(err);
+			res.send(err);
+		} else {
+			res.render("takeInventory.ejs", {user:user,storeName:req.params.storeName})
+		}
+	})
+})
+
 //update
 app.put("/items/:id", isLoggedIn, function(req,res){
 	Item.findByIdAndUpdate(req.params.id, req.body.item, function(err,updatedItem){
@@ -248,19 +274,7 @@ app.put("/multiUpdate/:length/:redirect/:storeName", isLoggedIn, function(req,re
 	}
 })
 
-//edit order
-app.get("/changeOrder/:storeName", isLoggedIn, function(req,res){
-	User.findById(req.user._id).populate("items").exec(function(err,user){
-		if (err) {
-			console.log(err)
-			res.send(err);
-		} else {
-			console.log(user)
-			res.render("changeOrder.ejs", {user:user,storeName:req.params.storeName})
-		}
-	})
-	
-});
+
 
 //delete
 app.delete("/items/:id", isLoggedIn, function(req,res){
