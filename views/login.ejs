@@ -1,10 +1,16 @@
 <% include partials/header.ejs %>
 
-
-<form action="/login" method="post">
-	<input type="text" name="username" placeholder="username">
-	<input type="password" name="password" placeholder="password">
-	<button>Log In</button>
+<form action="/login" method="post" class="ui form">
+	<div class="field">
+		<label>Username</label>
+		<input type="text" name="username" placeholder="username">
+	</div>
+	<div class="field">
+		<label>Password</label>
+		<input type="password" name="password" placeholder="password">
+	</div>
+	
+	<button class="ui submit button">Log In</button>
 	<a href="/register">Sign up</a>
 </form>
 
