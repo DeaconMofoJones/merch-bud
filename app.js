@@ -507,13 +507,13 @@ app.get("/apple/items/store/:storeName", function(req,res){
 			console.log("error in get /items: "+err);
 		} else {
 
-			User.findById(req.user._id).populate("items").exec(function(err,user){
+			User.find(function(err,user){
 				if (err) {
 					console.log(err)
 					res.send(err);
 				} else {
 					console.log(user)
-					res.json(User.items);
+					res.json(user);
 				}
 			})
 			
