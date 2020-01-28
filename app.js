@@ -497,6 +497,31 @@ app.delete("/warehouse/:id", isLoggedIn, isAdmin, function(req,res){
 	})
 });
 
+//============================================
+//				Apple Routes
+//============================================
+
+app.get("/apple/items/store/:storeName", isLoggedIn, function(req,res){
+	Item.find({store:req.params.storeName}, function(err,items){
+		if (err) {
+			console.log("error in get /items: "+err);
+		} else {
+
+			User.findById(req.user._id).populate("items").exec(function(err,user){
+				if (err) {
+					console.log(err)
+					res.send(err);
+				} else {
+					console.log(user)
+					res.json(User.items);
+				}
+			})
+			
+		}
+	});
+	
+});
+
 
 //============================================
 //				User Auth Routes
