@@ -501,7 +501,7 @@ app.delete("/warehouse/:id", isLoggedIn, isAdmin, function(req,res){
 //				Apple Routes
 //============================================
 
-app.get("/apple/items/store/:storeName", isLoggedIn, function(req,res){
+app.get("/apple/items/store/:storeName", function(req,res){
 	Item.find({store:req.params.storeName}, function(err,items){
 		if (err) {
 			console.log("error in get /items: "+err);
