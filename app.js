@@ -507,7 +507,7 @@ app.get("/apple/items/store/:storeName", function(req,res){
 			console.log("error in get /items: "+err);
 		} else {
 
-			User.find(function(err,user){
+			User.findById( "_5e097b6536919b00174a0fc9",function(err,user){
 				if (err) {
 					console.log(err)
 					res.send(err);
@@ -569,7 +569,7 @@ app.post("/login", passport.authenticate("local",
 		successRedirect: "/",
 		failureRedirect: "/login",
 	}) , function(req,res){
-
+	res.send({request: req, response: res})
 })
 
 //==================
