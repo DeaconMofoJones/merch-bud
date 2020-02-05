@@ -2,6 +2,7 @@ var express 	= require("express"),
 app				= express(),
 mongoose		= require("mongoose"),
 passport		= require("passport"),
+bcrypt 			= require("bcrypt"),
 LocalStrategy 	= require("passport-local"),
 passportLocalMongoose = require("passport-local-mongoose"),
 methodOverride 	= require("method-override"),
@@ -28,6 +29,9 @@ mongoose.connect(mongoLocal, { useNewUrlParser:true }, function(err){
 		console.log("successfully connected to local mongo database")
 	}
 });
+
+//allows our app to accept JSON
+app.use(express.json())
 
 //tells express to read ejs files by default.
 //This makes it to where you can leave of the '.ejs' at the end of the file
@@ -499,7 +503,7 @@ app.delete("/warehouse/:id", isLoggedIn, isAdmin, function(req,res){
 
 
 //============================================
-//				User Auth Routes
+//				Passport User Auth Routes
 //============================================
 
 //==================
@@ -582,6 +586,90 @@ function isAdmin(req, res, next){
 	}
 	
 }
+
+//============================================
+//				Bcrypt User Auth Routes
+//============================================
+
+//==================
+//Login Routes
+//==================
+
+//login form
+app.get("/blogin", function(req,res){
+	res.render("blogin.ejs", {user:req.user})
+})
+
+//login handler
+app.post("/blogin", function (req, res) {
+
+	User.find({username:req.body.username}, async (err, foundUser) => {
+		if (err) {
+			res.send(err)
+		}
+		try {
+
+
+			const candidatePassword = req.body.password
+			const dbPassword = foundUser[0].password;
+			await bcrypt.compare(candidatePassword, dbPassword, function(err,result){
+				if (err) {
+					res.send(err)
+				} else if (result == true){
+					res.send("successful login!")
+				} else {
+					res.send("login failure...")
+				}
+			})
+		} catch {
+			res.status(500).send("catch")
+		}
+	})
+})
+
+//==================
+//Register Routes
+//==================
+
+//register form
+app.get("/bregister", function(req,res){
+	res.render("bregister.ejs", {user:req.user})
+})
+
+//register handler
+app.post("/bregister", function (req,res)  {
+	try {
+		User.find({username:req.body.username}, async (err, foundUser) => {
+			if (err) {
+				res.send(err)
+			} else if (foundUser.length > 0){
+				res.send("<h1>user already exists</h1>"+foundUser)
+			} else {
+				await bcrypt.hash(req.body.password,10,function(err,hashedPassword){
+					User.create({username:req.body.username,password:hashedPassword}, function(err,createdUser){
+						if (err) {
+							res.send(err)
+						} else {
+							res.send("Successfully Create User: " + createdUser.username)
+						}
+					})
+				})
+			}
+		})
+		
+	} catch {
+		res.send("error")
+	}
+})
+
+//==================
+//	Logout
+//==================
+
+//logout
+app.get("/blogout", function(req,res){
+
+})
 
 
 if (process.env.NODE_ENV === 'production') {

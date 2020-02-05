@@ -1,0 +1,16 @@
+<% include partials/header.ejs %>
+
+<form action="/bregister" method="post" class="ui form">
+	<div class="field">
+		<label>Username</label>
+		<input type="text" name="username" placeholder="username">
+	</div>
+	<div class="field">
+		<label>Password</label>
+		<input type="password" name="password" placeholder="password">
+	</div>
+	<button class="ui submit button">Sign Up</button>
+</form>
+already signed up?<a href="/blogin"> Login here</a>
+
+<% include partials/footer.ejs %>
