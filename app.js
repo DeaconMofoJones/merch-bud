@@ -3,16 +3,20 @@ app				= express(),
 mongoose		= require("mongoose"),
 passport		= require("passport"),
 bcrypt 			= require("bcrypt"),
+jwt 			= require("jsonwebtoken"),
 LocalStrategy 	= require("passport-local"),
 passportLocalMongoose = require("passport-local-mongoose"),
 methodOverride 	= require("method-override"),
 bodyParser 		= require("body-parser"),
 Item 			= require("./models/item.js"),
+Token 			= require("./models/token.js"),
 WarehouseItem   = require("./models/warehouseItem.js"),
 User 			= require("./models/user.js"),
 port			= process.env.PORT || 3000,
 mongoLocal		= "mongodb://localhost:27017/merchandiser",
 mongoServer		= "mongodb+srv://deaconmofojones:Chuletas1@merchapp-a2iob.azure.mongodb.net/test?retryWrites=true&w=majority"
+
+require('dotenv').config();
 
 mongoose.connect(mongoLocal, { useNewUrlParser:true }, function(err){
 	if (err) {
@@ -592,6 +596,24 @@ function isAdmin(req, res, next){
 //============================================
 
 //==================
+//  token auth test 
+//==================
+
+
+//index
+app.get("/getCups", authenticateToken, function(req,res){
+	const cups = [
+		{
+			name: "cup 1"
+		},
+		{
+			name: "cup 2"
+		}
+	]
+	res.json({cups: cups,username: req.user.username})
+})
+
+//==================
 //Login Routes
 //==================
 
@@ -616,7 +638,19 @@ app.post("/blogin", function (req, res) {
 				if (err) {
 					res.send(err)
 				} else if (result == true){
-					res.send("successful login!")
+					//user authenticated
+					const authdUser = { username: foundUser[0].username};
+					console.log(authdUser);
+					const accessToken = generateAccessToken(authdUser)
+					const refreshToken = generateRefreshToken(authdUser)
+					//save refresh token in db
+					Token.create({refreshToken:refreshToken}, function(err,createdItem){
+						if (err) {
+							res.send(err)
+						} else {
+							res.json({accesstoken : accessToken, refreshToken: refreshToken})
+						}
+					})
 				} else {
 					res.send("login failure...")
 				}
@@ -662,14 +696,82 @@ app.post("/bregister", function (req,res)  {
 	}
 })
 
-//==================
-//	Logout
-//==================
+
+//==================================
+//	Logout (deleting refresh tokens)
+//==================================
 
 //logout
-app.get("/blogout", function(req,res){
-
+app.delete("/blogout", function(req,res){
+	Token.find({refreshToken:req.body.token}, (err, foundTokens) => {
+		if (err) {
+			res.send(err)
+		} else {
+			Token.findByIdAndRemove(foundTokens[0]._id, function(err,deletedTokens){
+				if (err) {
+					res.send(err)
+				} else {
+					res.sendStatus(204)
+				}
+			})
+		}
+	})
 })
+
+
+//==============================
+//	Tokens
+//==============================
+
+//generate access token
+function generateAccessToken(user){
+	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '60m' })
+}
+
+//generate refresh token
+function generateRefreshToken(user){
+	return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+}
+
+//create new access token 
+app.post("/token", (req, res) => {
+	const refreshToken = req.body.token;
+	if (refreshToken == null) {
+		return res.sendStatus(401)
+	}
+	Token.find({refreshToken:refreshToken}, function(err,foundRefreshToken){
+		if (err) {
+			return res.sendStatus(403)
+		} else if (foundRefreshToken.length>0) {
+			jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err,user) => {
+				if (err) {
+					return res.sendStatus(403)
+				} else {
+					const accessToken = generateAccessToken({username:user.username})
+					res.json(accessToken);
+				}
+			})
+		} else {
+			res.send("refresh token not found");
+		}
+	})
+})
+
+//authenticate token middleware
+function authenticateToken(req,res,next){
+	const authHeader = req.headers['authorization']
+	const token = authHeader && authHeader.split(' ')[1]
+	if (token == null) { return res.sendStatus(401) }
+
+	jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err,user) => {
+		if (err) {
+			return res.sendStatus(403)
+		} else {
+			req.user = user
+			next()
+		}
+	})
+}
 
 
 if (process.env.NODE_ENV === 'production') {
