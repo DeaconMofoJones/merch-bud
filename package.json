@@ -1,7 +1,6 @@
 {
   "name": "merchandiser",
   "version": "1.0.0",
-  "engines": "10.16.0",
   "description": "",
   "main": "app.js",
   "scripts": {
