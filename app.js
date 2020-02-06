@@ -725,7 +725,7 @@ app.delete("/blogout", function(req,res){
 
 //generate access token
 function generateAccessToken(user){
-	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '60m' })
+	return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '480m' })
 }
 
 //generate refresh token
