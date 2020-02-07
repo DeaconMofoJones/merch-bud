@@ -718,6 +718,17 @@ app.delete("/blogout", function(req,res){
 	})
 })
 
+//==============================
+//	test route
+//==============================
+app.get("/bgettesttokenpage", function(req,res){
+	res.render("testtokenroute.ejs")
+})
+app.post("/btesttoken", function (req, res) {
+	const accessToken = generateAccessToken({username: "pring"})
+	const accessToken = generateRefreshToken({username: "pring"})
+	res.json({accessToken: accessToken, refreshToken:refreshToken})
+})
 
 //==============================
 //	Tokens
