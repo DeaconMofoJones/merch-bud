@@ -727,7 +727,7 @@ app.get("/bgettesttokenpage", function(req,res){
 app.post("/btesttoken", function (req, res) {
 	const accessToken = generateAccessToken({username: "pring"})
 	const accessToken = generateRefreshToken({username: "pring"})
-	res.json({accessToken: accessToken, refreshToken:refreshToken})
+	res.json({"accessToken": accessToken, "refreshToken":refreshToken})
 })
 
 //==============================
