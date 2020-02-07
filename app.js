@@ -746,7 +746,7 @@ function generateRefreshToken(user){
 
 //create new access token 
 app.post("/token", (req, res) => {
-	const refreshToken = req.body.token;
+	const refreshToken = req.body.refreshToken;
 	if (refreshToken == null) {
 		return res.sendStatus(401)
 	}
