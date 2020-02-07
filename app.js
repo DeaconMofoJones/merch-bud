@@ -759,7 +759,7 @@ app.post("/token", (req, res) => {
 					return res.sendStatus(403)
 				} else {
 					const accessToken = generateAccessToken({username:user.username})
-					res.json(accessToken);
+					res.json({accessToken:accessToken});
 				}
 			})
 		} else {
