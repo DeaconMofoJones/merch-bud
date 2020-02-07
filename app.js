@@ -648,7 +648,7 @@ app.post("/blogin", function (req, res) {
 						if (err) {
 							res.send(err)
 						} else {
-							res.json({"accesstoken" : accessToken, "refreshToken": refreshToken})
+							res.json({accesstoken : accessToken, refreshToken: refreshToken})
 						}
 					})
 				} else {
