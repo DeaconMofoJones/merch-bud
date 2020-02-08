@@ -706,7 +706,7 @@ app.delete("/blogout", function(req,res){
 	Token.find({refreshToken:req.body.token}, (err, foundTokens) => {
 		if (err) {
 			res.send(err)
-		} else {
+		} else if (foundTokens.length>0){
 			Token.findByIdAndRemove(foundTokens[0]._id, function(err,deletedTokens){
 				if (err) {
 					res.send(err)
