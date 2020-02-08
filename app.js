@@ -714,6 +714,8 @@ app.delete("/blogout", function(req,res){
 					res.sendStatus(204)
 				}
 			})
+		} else {
+			res.send("refresh token not found")
 		}
 	})
 })
